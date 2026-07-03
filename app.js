@@ -1,4 +1,4 @@
-﻿const USER_CONFIG_PATH = "config/FastDash_userconfig.json";
+﻿﻿const USER_CONFIG_PATH = "config/FastDash_userconfig.json";
 const DEFAULT_CONFIG_PATH = "FastDash_defaultconfig.json";
 const USER_CONFIG_SAVE_DEBOUNCE_MS = 250;
 const MAX_TITLE_LENGTH = 60;
@@ -1389,9 +1389,6 @@ async function initializeApp() {
 }
 
 initializeApp();
-
-
-
 
 
 
