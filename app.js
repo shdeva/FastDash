@@ -1,5 +1,5 @@
-﻿const USER_CONFIG_PATH = "config/FastDash_userconfig.json";
-const DEFAULT_CONFIG_PATH = "FastDash_defaultconfig.json";
+﻿const USER_CONFIG_PATH = "/config/FastDash_userconfig.json";
+const DEFAULT_CONFIG_PATH = "/FastDash_defaultconfig.json";
 const USER_CONFIG_SAVE_DEBOUNCE_MS = 250;
 const MAX_TITLE_LENGTH = 60;
 const defaultSettings = {
@@ -18,6 +18,7 @@ let userConfig = {
 };
 let saveConfigTimeoutId = 0;
 let saveConfigInFlight = Promise.resolve();
+let saveConfigErrorVisible = false;
 
 const fontFamilies = {
     arial: "Arial, Helvetica, sans-serif",
@@ -439,20 +440,30 @@ async function loadUserConfiguration() {
             return;
         }
 
-        if (response.status !== 404) {
-            throw new Error(`Config load failed with HTTP ${response.status}.`);
+        if (response.status === 404) {
+            userConfig = await loadDefaultConfiguration();
+            await saveUserConfiguration();
+            return;
         }
-    } catch (error) {
-        console.warn("FastDash could not load the user config file.", error);
-    }
 
-    userConfig = await loadDefaultConfiguration();
-    await saveUserConfiguration();
+        throw new Error(`Config load failed with HTTP ${response.status}.`);
+    } catch (error) {
+        console.warn("FastDash could not load the user config file. Using defaults for this page load without overwriting saved data.", error);
+        userConfig = await loadDefaultConfiguration();
+    }
 }
 
 function queueSaveConfiguration() {
     if (saveConfigTimeoutId) window.clearTimeout(saveConfigTimeoutId);
     saveConfigTimeoutId = window.setTimeout(saveUserConfiguration, USER_CONFIG_SAVE_DEBOUNCE_MS);
+}
+
+function reportConfigurationSaveError(error) {
+    console.warn("FastDash could not save the user config file.", error);
+    if (saveConfigErrorVisible) return;
+
+    saveConfigErrorVisible = true;
+    alert("FastDash could not save changes to /config/FastDash_userconfig.json. Check that the container is running the WebDAV Nginx config and that /data/config is writable.");
 }
 
 async function saveUserConfiguration() {
@@ -463,15 +474,21 @@ async function saveUserConfiguration() {
     saveConfigInFlight = saveConfigInFlight
         .catch(() => undefined)
         .then(async () => {
-            const response = await fetch(USER_CONFIG_PATH, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: payload
-            });
+            try {
+                const response = await fetch(USER_CONFIG_PATH, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: payload
+                });
 
-            if (!response.ok) throw new Error(`Config save failed with HTTP ${response.status}.`);
-        })
-        .catch((error) => console.warn("FastDash could not save the user config file.", error));
+                if (!response.ok) throw new Error(`Config save failed with HTTP ${response.status}.`);
+                saveConfigErrorVisible = false;
+                return true;
+            } catch (error) {
+                reportConfigurationSaveError(error);
+                return false;
+            }
+        });
 
     return saveConfigInFlight;
 }
@@ -1389,6 +1406,7 @@ async function initializeApp() {
 }
 
 initializeApp();
+
 
 
 
