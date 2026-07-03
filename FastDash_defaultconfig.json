@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "settings": {
+    "title": "FastDash",
+    "theme": "early-bird",
+    "font": "arial",
+    "dateFormat": "mdy",
+    "showSeconds": false,
+    "use24Hour": false,
+    "showDayOfWeek": false
+  },
+  "blocks": [
+    {
+      "id": "block-1",
+      "title": "New Section",
+      "buttons": [],
+      "viewMode": "tiles",
+      "sortMode": "added",
+      "sortDescending": false,
+      "clickHistory": {},
+      "collapsed": false
+    }
+  ]
+}

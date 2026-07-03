@@ -1,4 +1,6 @@
-﻿const SETTINGS_STORAGE_KEY = "admin-header-settings";
+﻿const USER_CONFIG_PATH = "config/FastDash_userconfig.json";
+const DEFAULT_CONFIG_PATH = "FastDash_defaultconfig.json";
+const USER_CONFIG_SAVE_DEBOUNCE_MS = 250;
 const MAX_TITLE_LENGTH = 60;
 const defaultSettings = {
     title: "FastDash",
@@ -9,6 +11,13 @@ const defaultSettings = {
     use24Hour: false,
     showDayOfWeek: false
 };
+
+let userConfig = {
+    settings: { ...defaultSettings },
+    blocks: []
+};
+let saveConfigTimeoutId = 0;
+let saveConfigInFlight = Promise.resolve();
 
 const fontFamilies = {
     arial: "Arial, Helvetica, sans-serif",
@@ -38,15 +47,12 @@ const importConfigInput = document.querySelector("#import-config-input");
 const resetConfigButton = document.querySelector("#reset-config-button");
 
 function getSettings() {
-    try {
-        return normalizeSettings(JSON.parse(localStorage.getItem(SETTINGS_STORAGE_KEY)));
-    } catch {
-        return normalizeSettings();
-    }
+    return normalizeSettings(userConfig.settings);
 }
 
 function saveSettings(settings) {
-    localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+    userConfig.settings = normalizeSettings(settings);
+    queueSaveConfiguration();
 }
 
 function pad(value) {
@@ -170,8 +176,19 @@ function getConfigurationSnapshot() {
     };
 }
 
-function exportConfiguration() {
-    const json = JSON.stringify(getConfigurationSnapshot(), null, 2);
+async function exportConfiguration() {
+    await saveUserConfiguration();
+
+    let json;
+    try {
+        const response = await fetch(USER_CONFIG_PATH, { cache: "no-store" });
+        if (!response.ok) throw new Error(`Config download failed with HTTP ${response.status}.`);
+        json = await response.text();
+    } catch (error) {
+        console.warn("FastDash could not download the saved user config file, so it exported the current in-memory config.", error);
+        json = JSON.stringify(getConfigurationSnapshot(), null, 2);
+    }
+
     const blob = new Blob([json], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -188,15 +205,15 @@ function importConfigurationFile(file) {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.addEventListener("load", () => {
+    reader.addEventListener("load", async () => {
         try {
             const data = JSON.parse(String(reader.result || "{}"));
             if (!data || typeof data !== "object" || !Array.isArray(data.blocks)) {
                 throw new Error("Invalid configuration file.");
             }
 
-            saveSettings({ ...defaultSettings, ...(data.settings || {}) });
-            saveBlocks(data.blocks);
+            userConfig = normalizeUserConfiguration(data);
+            await saveUserConfiguration();
             applySettings();
             renderBlocks();
             settingsDialog?.close();
@@ -209,19 +226,12 @@ function importConfigurationFile(file) {
     reader.readAsText(file);
 }
 
-function resetConfiguration() {
+async function resetConfiguration() {
     const confirmed = confirm("Reset the page to defaults? This will remove all sections, buttons, and header settings.");
     if (!confirmed) return;
 
-    localStorage.removeItem(SETTINGS_STORAGE_KEY);
-    localStorage.removeItem(LEGACY_BLOCK_TITLE_STORAGE_KEY);
-    localStorage.removeItem(LEGACY_BLOCK_BUTTONS_STORAGE_KEY);
-    localStorage.removeItem(LEGACY_BLOCK_VIEW_MODE_STORAGE_KEY);
-    localStorage.removeItem(LEGACY_BLOCK_SORT_MODE_STORAGE_KEY);
-    localStorage.removeItem(LEGACY_BLOCK_SORT_DESCENDING_STORAGE_KEY);
-    localStorage.removeItem(LEGACY_BLOCK_CLICK_HISTORY_STORAGE_KEY);
-    localStorage.removeItem(LEGACY_BLOCK_COLLAPSED_STORAGE_KEY);
-    saveBlocks([createBlock({ id: "block-1" })]);
+    userConfig = await loadDefaultConfiguration();
+    await saveUserConfiguration();
 
     editingBlockId = "";
     activeButtonBlockId = "";
@@ -242,17 +252,7 @@ settingsDialog?.addEventListener("click", (event) => {
     if (event.target === settingsDialog) settingsDialog.close();
 });
 
-applySettings();
-setInterval(updateLocalTime, 1000);
 
-const BLOCKS_STORAGE_KEY = "admin-button-blocks";
-const LEGACY_BLOCK_TITLE_STORAGE_KEY = "admin-button-block-title-1";
-const LEGACY_BLOCK_BUTTONS_STORAGE_KEY = "admin-button-block-buttons-1";
-const LEGACY_BLOCK_VIEW_MODE_STORAGE_KEY = "admin-button-block-view-mode-1";
-const LEGACY_BLOCK_SORT_MODE_STORAGE_KEY = "admin-button-block-sort-mode-1";
-const LEGACY_BLOCK_SORT_DESCENDING_STORAGE_KEY = "admin-button-block-sort-descending-1";
-const LEGACY_BLOCK_CLICK_HISTORY_STORAGE_KEY = "admin-button-block-click-history-1";
-const LEGACY_BLOCK_COLLAPSED_STORAGE_KEY = "admin-button-block-collapsed-1";
 const DEFAULT_BLOCK_TITLE = "New Section";
 const CLICK_HISTORY_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -308,15 +308,6 @@ let isReorderMode = false;
 let reorderSnapshot = "";
 let draggedBlockId = "";
 
-function readJson(key, fallback) {
-    try {
-        const value = JSON.parse(localStorage.getItem(key));
-        return value ?? fallback;
-    } catch {
-        return fallback;
-    }
-}
-
 function createId() {
     return globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
@@ -368,33 +359,15 @@ function createBlock(overrides = {}) {
     };
 }
 
-function migrateLegacyBlock() {
-    const buttons = readJson(LEGACY_BLOCK_BUTTONS_STORAGE_KEY, []);
-    const clickHistory = readJson(LEGACY_BLOCK_CLICK_HISTORY_STORAGE_KEY, {});
-    const viewMode = localStorage.getItem(LEGACY_BLOCK_VIEW_MODE_STORAGE_KEY);
-    const sortMode = localStorage.getItem(LEGACY_BLOCK_SORT_MODE_STORAGE_KEY);
-
-    return createBlock({
-        id: "block-1",
-        title: localStorage.getItem(LEGACY_BLOCK_TITLE_STORAGE_KEY) || DEFAULT_BLOCK_TITLE,
-        buttons: Array.isArray(buttons) ? buttons : [],
-        viewMode: viewModes.includes(viewMode) ? viewMode : "tiles",
-        sortMode: sortModes.includes(sortMode) ? sortMode : "added",
-        sortDescending: localStorage.getItem(LEGACY_BLOCK_SORT_DESCENDING_STORAGE_KEY) === "true",
-        clickHistory: clickHistory && typeof clickHistory === "object" && !Array.isArray(clickHistory) ? clickHistory : {},
-        collapsed: localStorage.getItem(LEGACY_BLOCK_COLLAPSED_STORAGE_KEY) === "true"
-    });
-}
-
 function getBlocks() {
-    const savedBlocks = readJson(BLOCKS_STORAGE_KEY, null);
-    if (Array.isArray(savedBlocks) && savedBlocks.length) {
-        return sanitizeBlocks(savedBlocks);
+    if (Array.isArray(userConfig.blocks) && userConfig.blocks.length) {
+        return sanitizeBlocks(userConfig.blocks);
     }
 
-    const migrated = [migrateLegacyBlock()];
-    saveBlocks(migrated);
-    return migrated;
+    const defaultBlocks = getDefaultBlocks();
+    userConfig.blocks = defaultBlocks;
+    queueSaveConfiguration();
+    return defaultBlocks;
 }
 
 function sanitizeButton(button = {}) {
@@ -432,7 +405,75 @@ function sanitizeBlocks(blocks) {
 }
 
 function saveBlocks(blocks) {
-    localStorage.setItem(BLOCKS_STORAGE_KEY, JSON.stringify(sanitizeBlocks(blocks)));
+    userConfig.blocks = sanitizeBlocks(blocks);
+    queueSaveConfiguration();
+}
+
+function getDefaultBlocks() {
+    return [createBlock({ id: "block-1" })];
+}
+
+function normalizeUserConfiguration(data = {}) {
+    return {
+        settings: normalizeSettings(data.settings),
+        blocks: Array.isArray(data.blocks) && data.blocks.length ? sanitizeBlocks(data.blocks) : getDefaultBlocks()
+    };
+}
+
+async function loadDefaultConfiguration() {
+    try {
+        const response = await fetch(DEFAULT_CONFIG_PATH, { cache: "no-store" });
+        if (response.ok) return normalizeUserConfiguration(await response.json());
+        throw new Error(`Default config load failed with HTTP ${response.status}.`);
+    } catch (error) {
+        console.warn("FastDash is using built-in defaults because the default config file could not be loaded.", error);
+        return normalizeUserConfiguration();
+    }
+}
+
+async function loadUserConfiguration() {
+    try {
+        const response = await fetch(USER_CONFIG_PATH, { cache: "no-store" });
+        if (response.ok) {
+            userConfig = normalizeUserConfiguration(await response.json());
+            return;
+        }
+
+        if (response.status !== 404) {
+            throw new Error(`Config load failed with HTTP ${response.status}.`);
+        }
+    } catch (error) {
+        console.warn("FastDash could not load the user config file.", error);
+    }
+
+    userConfig = await loadDefaultConfiguration();
+    await saveUserConfiguration();
+}
+
+function queueSaveConfiguration() {
+    if (saveConfigTimeoutId) window.clearTimeout(saveConfigTimeoutId);
+    saveConfigTimeoutId = window.setTimeout(saveUserConfiguration, USER_CONFIG_SAVE_DEBOUNCE_MS);
+}
+
+async function saveUserConfiguration() {
+    if (saveConfigTimeoutId) window.clearTimeout(saveConfigTimeoutId);
+    saveConfigTimeoutId = 0;
+
+    const payload = JSON.stringify(getConfigurationSnapshot(), null, 2);
+    saveConfigInFlight = saveConfigInFlight
+        .catch(() => undefined)
+        .then(async () => {
+            const response = await fetch(USER_CONFIG_PATH, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: payload
+            });
+
+            if (!response.ok) throw new Error(`Config save failed with HTTP ${response.status}.`);
+        })
+        .catch((error) => console.warn("FastDash could not save the user config file.", error));
+
+    return saveConfigInFlight;
 }
 
 function updateBlock(blockId, updater) {
@@ -1339,45 +1380,15 @@ deleteButtonDialog?.addEventListener("click", (event) => {
     if (event.target === deleteButtonDialog) deleteButtonDialog.close();
 });
 
-applyReorderModeState();
-renderBlocks();
+async function initializeApp() {
+    await loadUserConfiguration();
+    applySettings();
+    setInterval(updateLocalTime, 1000);
+    applyReorderModeState();
+    renderBlocks();
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+initializeApp();
 
 
 

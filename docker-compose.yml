@@ -1,6 +1,6 @@
 ﻿services:
   website:
-    image: alpine:3.20
+    image: nginx:1.27-alpine
     container_name: fastdash-website
     restart: unless-stopped
     user: "0:0"
@@ -17,17 +17,16 @@
       - -c
       - |
         set -eu
-        apk add --no-cache git darkhttpd su-exec
-        mkdir -p /data/config /tmp/site
-        chown -R 568:568 /data
+        apk add --no-cache git
+        mkdir -p /data/config /tmp/site /tmp/client_temp
+        chown -R 568:568 /data /tmp/client_temp
         rm -rf /tmp/source /tmp/site/*
-        git clone --depth 1 --branch "$$GIT_BRANCH" "$$GIT_REPO" /tmp/source
+        git clone --depth 1 --branch "$${GIT_BRANCH}" "$${GIT_REPO}" /tmp/source
         cp -a /tmp/source/. /tmp/site/
         rm -rf /tmp/site/.git
+        cp /tmp/site/nginx-webdav.conf /etc/nginx/conf.d/default.conf
         chown -R 568:568 /tmp/site
-        exec su-exec 568:568 darkhttpd /tmp/site --port 8080 --addr 0.0.0.0
+        sed -i 's/^user .*/user 568 568;/' /etc/nginx/nginx.conf
+        exec nginx -g 'daemon off;'
     security_opt:
       - no-new-privileges:true
-
-
-
