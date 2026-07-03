@@ -18,18 +18,15 @@
       - |
         set -eu
         apk add --no-cache git
-        mkdir -p /data/config /data/client_temp /tmp/site
-        chown -R nginx:nginx /data
+        mkdir -p /data/config /tmp/site /tmp/client_temp
+        chown -R 568:568 /data /tmp/client_temp
         rm -rf /tmp/source /tmp/site/*
         git clone --depth 1 --branch "$${GIT_BRANCH}" "$${GIT_REPO}" /tmp/source
         cp -a /tmp/source/. /tmp/site/
         rm -rf /tmp/site/.git
         cp /tmp/site/nginx-webdav.conf /etc/nginx/conf.d/default.conf
-        chown -R nginx:nginx /tmp/site
-        nginx -t
+        chown -R 568:568 /tmp/site
+        sed -i 's/^user .*/user 568 568;/' /etc/nginx/nginx.conf
         exec nginx -g 'daemon off;'
     security_opt:
       - no-new-privileges:true
-
-
-
