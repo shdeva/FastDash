@@ -1,0 +1,213 @@
+﻿<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FastDash</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="themes.css">
+    </head>
+    <body>
+        <header class="title-bar">
+            <h1 id="header-title">FastDash</h1>
+            <div class="header-actions">
+                <time id="local-time" aria-live="polite"></time>
+                <button id="open-header-settings" class="icon-button" type="button" aria-label="Edit header settings">
+                    <img src="iconify/meteor-icons--gear.svg" alt="" aria-hidden="true">
+                </button>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <div id="button-blocks" class="button-blocks" aria-label="Button blocks"></div>
+        </main>
+
+        <button id="reorder-blocks-button" class="reorder-blocks-button" type="button" aria-label="Rearrange button blocks" title="Rearrange button blocks">
+            <img src="iconify/meteor-icons--bars-sort.svg" alt="" aria-hidden="true">
+        </button>
+
+        <button id="add-block-button" class="add-block-button" type="button" aria-label="Add button block" title="Add button block">
+            <img src="iconify/meteor-icons--plus.svg" alt="" aria-hidden="true">
+        </button>
+
+        <dialog id="add-button-dialog" class="settings-dialog">
+            <form id="add-button-form" method="dialog">
+                <div class="dialog-heading">
+                    <h2>Add button</h2>
+                    <button id="close-add-button-dialog" class="icon-button subtle" type="button" aria-label="Close add button dialog">x</button>
+                </div>
+
+                <label for="new-button-text">Button Text</label>
+                <input id="new-button-text" type="text" maxlength="30" autocomplete="off" required>
+                <span class="character-counter" data-counter-for="new-button-text">0/30</span>
+
+                <label for="new-button-url">URL</label>
+                <input id="new-button-url" type="text" maxlength="120" autocomplete="off" required>
+                <span class="character-counter" data-counter-for="new-button-url">0/120</span>
+
+                <div class="dialog-actions">
+                    <button id="cancel-add-button" class="text-button" type="button">Cancel</button>
+                    <button class="primary-button" type="submit">Add</button>
+                </div>
+            </form>
+        </dialog>
+
+
+        <dialog id="edit-button-dialog" class="settings-dialog">
+            <form id="edit-button-form" method="dialog">
+                <div class="dialog-heading">
+                    <h2>Edit button</h2>
+                    <button id="close-edit-button-dialog" class="icon-button subtle" type="button" aria-label="Close edit button dialog">x</button>
+                </div>
+
+                <input id="edit-button-id" type="hidden">
+
+                <label for="edit-button-text">Button Text</label>
+                <input id="edit-button-text" type="text" maxlength="30" autocomplete="off" required>
+                <span class="character-counter" data-counter-for="edit-button-text">0/30</span>
+
+                <label for="edit-button-url">URL</label>
+                <input id="edit-button-url" type="text" maxlength="120" autocomplete="off" required>
+                <span class="character-counter" data-counter-for="edit-button-url">0/120</span>
+
+                <div class="dialog-actions">
+                    <button id="cancel-edit-button" class="text-button" type="button">Cancel</button>
+                    <button class="primary-button" type="submit">Save</button>
+                </div>
+            </form>
+        </dialog>
+
+        <dialog id="delete-button-dialog" class="settings-dialog confirm-dialog">
+            <form id="delete-button-form" method="dialog">
+                <div class="dialog-heading">
+                    <h2>Delete button</h2>
+                    <button id="close-delete-button-dialog" class="icon-button subtle" type="button" aria-label="Close delete confirmation">x</button>
+                </div>
+                <p id="delete-button-message" class="confirm-message"></p>
+                <div class="dialog-actions">
+                    <button id="cancel-delete-button" class="text-button" type="button">Cancel</button>
+                    <button class="danger-button" type="submit">Delete</button>
+                </div>
+            </form>
+        </dialog>
+        <dialog id="header-settings" class="settings-dialog">
+            <form id="header-settings-form" method="dialog">
+                <div class="dialog-heading">
+                    <h2>Header settings</h2>
+                    <button class="icon-button subtle" value="cancel" type="submit" aria-label="Close settings">x</button>
+                </div>
+
+                <label for="header-title-input">Header title</label>
+                <input id="header-title-input" type="text" maxlength="60" autocomplete="off" required>
+                <span class="character-counter" data-counter-for="header-title-input">0/60</span>
+
+                <label for="theme-select">Theme</label>
+                <select id="theme-select">
+                    <option value="early-bird">Early Bird</option>
+                    <option value="night-owl">Night Owl</option>
+                    <option value="sea-glass">Sea Glass</option>
+                    <option value="arcade">Arcade</option>
+                    <option value="red-planet">Red Planet</option>
+                    <option value="watermelon">Watermelon</option>
+                    <option value="navy-blue">Navy Blue</option>
+                    <option value="groovy">Groovy</option>
+                    <option value="retro-gaming">Retro Gaming</option>
+                    <option value="terminal">Terminal (Green)</option>
+                    <option value="terminal-orange">Terminal (Orange)</option>
+                </select>
+
+                <label for="font-select">Font</label>
+                <select id="font-select">
+                    <option value="arial">Arial</option>
+                    <option value="courier">Courier</option>
+                    <option value="garamond">Garamond</option>
+                    <option value="georgia">Georgia</option>
+                    <option value="times-new-roman">Times New Roman</option>
+                    <option value="trebuchet">Trebuchet</option>
+                    <option value="verdana">Verdana</option>
+                </select>
+
+                <label for="date-format-select">Date format</label>
+                <select id="date-format-select">
+                    <option value="mdy">MM-DD-YYYY</option>
+                    <option value="dmy">DD-MM-YYYY</option>
+                    <option value="ymd">YYYY-MM-DD</option>
+                    <option value="pretty">Pretty Date</option>
+                    <option value="clock-only">Clock Only</option>
+                    <option value="none">None</option>
+                </select>
+
+                <div class="checkbox-row" aria-label="Time display options">
+                    <label class="checkbox-field" for="show-seconds-input">
+                        <input id="show-seconds-input" type="checkbox">
+                        <span>Seconds</span>
+                    </label>
+                    <label class="checkbox-field" for="use-24-hour-input">
+                        <input id="use-24-hour-input" type="checkbox">
+                        <span>24 hour</span>
+                    </label>
+                    <label class="checkbox-field" for="day-of-week-input">
+                        <input id="day-of-week-input" type="checkbox">
+                        <span>Day of week</span>
+                    </label>
+                </div>
+
+
+                <div class="config-actions" aria-label="Configuration file actions">
+                    <button id="export-config-button" class="text-button" type="button"><img src="iconify/meteor-icons--download.svg" alt="" aria-hidden="true"><span>Download JSON</span></button>
+                    <button id="import-config-button" class="text-button" type="button"><img src="iconify/meteor-icons--upload.svg" alt="" aria-hidden="true"><span>Upload JSON</span></button>
+                    <input id="import-config-input" type="file" accept="application/json,.json" hidden>
+                    <button id="reset-config-button" class="danger-button" type="button"><img src="iconify/meteor-icons--arrows-reset.svg" alt="" aria-hidden="true"><span>Reset Page</span></button>
+                </div>
+                <div class="dialog-actions">
+                    <button class="text-button" value="cancel" type="submit">Cancel</button>
+                    <button class="primary-button" value="save" type="submit">Save</button>
+                </div>
+            </form>
+        </dialog>
+
+        <script src="app.js"></script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

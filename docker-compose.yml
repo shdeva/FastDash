@@ -1,0 +1,50 @@
+﻿services:
+  sync:
+    image: alpine/git:latest
+    container_name: scloud-sync
+    user: "568:568"
+    volumes:
+      - site-data:/site:rw
+    environment:
+      GIT_REPO: ${GIT_REPO}
+      GIT_BRANCH: ${GIT_BRANCH:-main}
+    command:
+      - /bin/sh
+      - -c
+      - |
+        set -eu
+        if [ -z "$GIT_REPO" ]; then
+          echo "GIT_REPO is required"
+          exit 1
+        fi
+        rm -rf /tmp/source
+        git clone --depth 1 --branch "$GIT_BRANCH" "$GIT_REPO" /tmp/source
+        find /site -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+        cp -a /tmp/source/. /site/
+        rm -rf /site/.git
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
+
+  website:
+    image: caddy:2-alpine
+    container_name: scloud-website
+    restart: unless-stopped
+    user: "568:568"
+    depends_on:
+      sync:
+        condition: service_completed_successfully
+    ports:
+      - "8080:8080"
+    volumes:
+      - site-data:/srv:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    command: caddy file-server --root /srv --listen :8080
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  site-data:
+  caddy-data:
+  caddy-config:

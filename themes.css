@@ -1,0 +1,970 @@
+﻿/* Theme-specific variables and overrides. */
+
+:root[data-theme="groovy"] {
+    --bg: #ffecb4;
+    --panel: #5a3d2b;
+    --panel-strong: #744d32;
+    --border: #e5771e;
+    --text: #ffecb4;
+    --muted: #f1ad4a;
+    --accent: #e5771e;
+    --accent-strong: #75c8ae;
+    --divider-accent: #f1ad4a;
+}
+
+:root[data-theme="groovy"] body {
+    color: #5a3d2b;
+}
+
+:root[data-theme="groovy"] .title-bar {
+    background: linear-gradient(
+        to bottom,
+        #75c8ae 0 20%,
+        #ffecb4 20% 40%,
+        #f1ad4a 40% 60%,
+        #e5771e 60% 80%,
+        #5a3d2b 80% 100%
+    );
+}
+
+:root[data-theme="groovy"] h1,
+:root[data-theme="groovy"] #local-time,
+:root[data-theme="groovy"] #open-header-settings {
+    color: #ffffff;
+    font-weight: 900 !important;
+    text-shadow: 4px 4px 0 #2b2b2b;
+}
+
+:root[data-theme="groovy"] #open-header-settings img {
+    filter: brightness(0) saturate(100%);
+}
+
+:root[data-theme="groovy"] .button-block,
+:root[data-theme="groovy"] .settings-dialog,
+:root[data-theme="groovy"] .sort-menu {
+    color: var(--text);
+}
+
+:root[data-theme="groovy"] .grid-button,
+:root[data-theme="groovy"] .checkbox-field,
+:root[data-theme="groovy"] .settings-dialog input,
+:root[data-theme="groovy"] .settings-dialog select,
+:root[data-theme="groovy"] .block-title-input {
+    color: #ffecb4;
+    background: var(--panel);
+}
+
+:root[data-theme="groovy"] .text-button {
+    color: #ffecb4;
+    background: #5a3d2b;
+}
+
+:root[data-theme="groovy"] .primary-button,
+:root[data-theme="groovy"] .add-block-button {
+    color: #5a3d2b;
+}
+
+:root[data-theme="groovy"] .reorder-blocks-button {
+    color: var(--divider-accent);
+    background: var(--panel);
+}
+
+:root[data-theme="groovy"] .block-title-bar,
+:root[data-theme="groovy"] .block-title-bar h2,
+:root[data-theme="groovy"] .block-control {
+    color: #5a3d2b;
+}
+
+:root[data-theme="groovy"] .block-title-bar::after {
+    background: #5a3d2b;
+}
+
+:root[data-theme="groovy"] .block-control img,
+:root[data-theme="groovy"] .block-reorder-handle img {
+    filter: brightness(0) saturate(100%) invert(23%) sepia(16%) saturate(1189%) hue-rotate(342deg) brightness(94%) contrast(89%);
+}
+
+:root[data-theme="groovy"] .grid-button {
+    border-color: #e5771e;
+    color: #5a3d2b;
+    background: #f1ad4a;
+}
+
+:root[data-theme="groovy"] .grid-button:hover,
+:root[data-theme="groovy"] .grid-button:focus-visible {
+    border-color: #75c8ae;
+    background: #e5771e;
+}
+
+:root[data-theme="groovy"] .grid-button .fallback-icon {
+    color: #5a3d2b;
+    background: #75c8ae;
+}
+
+
+
+:root[data-theme="arcade"] {
+    color-scheme: dark;
+    --bg: #19191d;
+    --panel: #23232a;
+    --panel-strong: #2d2b35;
+    --border: #672394;
+    --text: #e8e6d9;
+    --muted: #b9b5d0;
+    --accent: #f725a0;
+    --accent-strong: #0cb2c0;
+    --divider-accent: #fad141;
+}
+
+:root[data-theme="arcade"] body {
+    color: var(--text);
+}
+
+:root[data-theme="arcade"] .title-bar {
+    background-image: linear-gradient(rgba(25, 25, 29, 0.2), rgba(25, 25, 29, 0.58)), url("Images/arcade.png");
+    background-color: #19191d;
+    background-size: 500px 500px;
+    background-position: top left;
+    background-repeat: repeat;
+    box-shadow: 0 2px 0 #fad141, 0 0.85rem 1.5rem rgba(0, 0, 0, 0.42);
+}
+
+:root[data-theme="arcade"] h1,
+:root[data-theme="arcade"] #local-time,
+:root[data-theme="arcade"] #open-header-settings {
+    color: #e8e6d9;
+    font-weight: 900;
+    text-shadow: 3px 3px 0 #672394, -2px -2px 0 #0cb2c0;
+}
+
+:root[data-theme="arcade"] .block-title-bar,
+:root[data-theme="arcade"] .block-title-bar h2,
+:root[data-theme="arcade"] .block-control {
+    color: #fad141;
+}
+
+:root[data-theme="arcade"] .block-title-bar::after {
+    background: linear-gradient(90deg, #f725a0, #fad141, #0cb2c0);
+}
+
+:root[data-theme="arcade"] .icon-button,
+:root[data-theme="arcade"] .settings-dialog,
+:root[data-theme="arcade"] .sort-menu,
+:root[data-theme="arcade"] .text-button,
+:root[data-theme="arcade"] .checkbox-field,
+:root[data-theme="arcade"] .settings-dialog input,
+:root[data-theme="arcade"] .settings-dialog select,
+:root[data-theme="arcade"] .block-title-input,
+:root[data-theme="arcade"] .reorder-blocks-button {
+    color: var(--text);
+    border-color: #672394;
+    background: #23232a;
+}
+
+:root[data-theme="arcade"] .grid-button {
+    color: var(--text);
+    border-color: #672394;
+    background: linear-gradient(135deg, rgba(103, 35, 148, 0.58), rgba(35, 35, 42, 0.94));
+    box-shadow: inset 0 2px 0 rgba(250, 209, 65, 0.22), 0 0.55rem 1rem rgba(0, 0, 0, 0.28);
+}
+
+:root[data-theme="arcade"] .grid-button:hover,
+:root[data-theme="arcade"] .grid-button:focus-visible,
+:root[data-theme="arcade"] .icon-button:hover,
+:root[data-theme="arcade"] .icon-button:focus-visible,
+:root[data-theme="arcade"] .block-control:hover,
+:root[data-theme="arcade"] .block-control:focus-visible,
+:root[data-theme="arcade"] .text-button:hover,
+:root[data-theme="arcade"] .text-button:focus-visible {
+    border-color: #0cb2c0;
+    background: #2d2b35;
+}
+
+:root[data-theme="arcade"] .primary-button,
+:root[data-theme="arcade"] .add-block-button,
+:root[data-theme="arcade"] .reorder-blocks-button.is-active {
+    color: #19191d;
+    border-color: #fad141;
+    background: #fad141;
+}
+
+:root[data-theme="arcade"] .grid-button .fallback-icon {
+    color: #19191d;
+    background: #fad141;
+}
+
+:root[data-theme="arcade"] .button-card-action {
+    border-color: #f725a0;
+    background: rgba(35, 35, 42, 0.94);
+}
+
+:root[data-theme="arcade"] #open-header-settings img,
+:root[data-theme="arcade"] .icon-button img,
+:root[data-theme="arcade"] .block-control img,
+:root[data-theme="arcade"] .block-reorder-handle img,
+:root[data-theme="arcade"] .button-card-action img,
+:root[data-theme="arcade"] .config-actions button img,
+:root[data-theme="arcade"] .reorder-blocks-button img {
+    filter: brightness(0) saturate(100%) invert(83%) sepia(56%) saturate(827%) hue-rotate(353deg) brightness(104%) contrast(96%);
+}
+
+:root[data-theme="arcade"] .primary-button img,
+:root[data-theme="arcade"] .add-block-button img,
+:root[data-theme="arcade"] .reorder-blocks-button.is-active img {
+    filter: brightness(0) saturate(100%) invert(8%) sepia(8%) saturate(689%) hue-rotate(202deg) brightness(94%) contrast(93%);
+}
+
+:root[data-theme="arcade"] .settings-dialog::backdrop {
+    background: rgba(10, 10, 14, 0.78);
+}
+
+:root[data-theme="red-planet"] {
+    color-scheme: dark;
+    --bg: #241111;
+    --panel: #581616;
+    --panel-strong: #691a1a;
+    --border: #870d0d;
+    --text: #ffe8d6;
+    --muted: #d69a73;
+    --accent: #a74808;
+    --accent-strong: #cc7810;
+    --divider-accent: #cc7810;
+}
+
+:root[data-theme="red-planet"] body {
+    color: var(--text);
+}
+
+:root[data-theme="red-planet"] .title-bar {
+    background: linear-gradient(135deg, #581616, #870d0d 48%, #a74808);
+    box-shadow: 0 2px 0 #cc7810, 0 0.8rem 1.5rem rgba(25, 4, 4, 0.45);
+}
+
+:root[data-theme="red-planet"] h1,
+:root[data-theme="red-planet"] #local-time,
+:root[data-theme="red-planet"] #open-header-settings {
+    color: #ffe8d6;
+    font-weight: 850;
+    text-shadow: 2px 2px 0 rgba(36, 17, 17, 0.86);
+}
+
+:root[data-theme="red-planet"] .block-title-bar,
+:root[data-theme="red-planet"] .block-title-bar h2,
+:root[data-theme="red-planet"] .block-control {
+    color: #cc7810;
+}
+
+:root[data-theme="red-planet"] .block-title-bar::after {
+    background: linear-gradient(90deg, #870d0d, #a74808, #cc7810);
+}
+
+:root[data-theme="red-planet"] .icon-button,
+:root[data-theme="red-planet"] .settings-dialog,
+:root[data-theme="red-planet"] .sort-menu,
+:root[data-theme="red-planet"] .text-button,
+:root[data-theme="red-planet"] .checkbox-field,
+:root[data-theme="red-planet"] .settings-dialog input,
+:root[data-theme="red-planet"] .settings-dialog select,
+:root[data-theme="red-planet"] .block-title-input,
+:root[data-theme="red-planet"] .reorder-blocks-button {
+    color: var(--text);
+    border-color: #870d0d;
+    background: #581616;
+}
+
+:root[data-theme="red-planet"] .grid-button {
+    color: #ffe8d6;
+    border-color: #870d0d;
+    background: linear-gradient(135deg, #581616, #691a1a);
+    box-shadow: inset 0 1px 0 rgba(204, 120, 16, 0.34), 0 0.45rem 1rem rgba(25, 4, 4, 0.28);
+}
+
+:root[data-theme="red-planet"] .grid-button:hover,
+:root[data-theme="red-planet"] .grid-button:focus-visible,
+:root[data-theme="red-planet"] .icon-button:hover,
+:root[data-theme="red-planet"] .icon-button:focus-visible,
+:root[data-theme="red-planet"] .block-control:hover,
+:root[data-theme="red-planet"] .block-control:focus-visible,
+:root[data-theme="red-planet"] .text-button:hover,
+:root[data-theme="red-planet"] .text-button:focus-visible {
+    border-color: #cc7810;
+    background: #691a1a;
+}
+
+:root[data-theme="red-planet"] .primary-button,
+:root[data-theme="red-planet"] .add-block-button,
+:root[data-theme="red-planet"] .reorder-blocks-button.is-active {
+    color: #241111;
+    border-color: #cc7810;
+    background: #cc7810;
+}
+
+:root[data-theme="red-planet"] .grid-button .fallback-icon {
+    color: #241111;
+    background: #cc7810;
+}
+
+:root[data-theme="red-planet"] .button-card-action {
+    border-color: #a74808;
+    background: rgba(88, 22, 22, 0.94);
+}
+
+:root[data-theme="red-planet"] #open-header-settings img,
+:root[data-theme="red-planet"] .icon-button img,
+:root[data-theme="red-planet"] .block-control img,
+:root[data-theme="red-planet"] .block-reorder-handle img,
+:root[data-theme="red-planet"] .button-card-action img,
+:root[data-theme="red-planet"] .config-actions button img,
+:root[data-theme="red-planet"] .reorder-blocks-button img {
+    filter: brightness(0) saturate(100%) invert(51%) sepia(77%) saturate(912%) hue-rotate(356deg) brightness(93%) contrast(91%);
+}
+
+:root[data-theme="red-planet"] .primary-button img,
+:root[data-theme="red-planet"] .add-block-button img,
+:root[data-theme="red-planet"] .reorder-blocks-button.is-active img {
+    filter: brightness(0) saturate(100%) invert(8%) sepia(19%) saturate(1001%) hue-rotate(314deg) brightness(94%) contrast(94%);
+}
+
+:root[data-theme="red-planet"] .settings-dialog::backdrop {
+    background: rgba(20, 7, 7, 0.76);
+}
+:root[data-theme="sea-glass"] {
+    color-scheme: light;
+    --bg: #e6f3f6;
+    --panel: rgba(205, 232, 237, 0.72);
+    --panel-strong: rgba(175, 238, 238, 0.86);
+    --border: rgba(120, 184, 190, 0.58);
+    --text: #17373c;
+    --muted: #4f7f84;
+    --accent: #afeeee;
+    --accent-strong: #d3ffce;
+    --divider-accent: #8fcfd1;
+}
+
+:root[data-theme="sea-glass"] body {
+    color: var(--text);
+}
+
+:root[data-theme="sea-glass"] .title-bar {
+    background: linear-gradient(135deg, rgba(175, 238, 238, 0.82), rgba(230, 243, 246, 0.96));
+    box-shadow: 0 1px 0 rgba(23, 55, 60, 0.12), 0 0.75rem 1.5rem rgba(23, 55, 60, 0.08);
+}
+
+:root[data-theme="sea-glass"] h1,
+:root[data-theme="sea-glass"] #local-time,
+:root[data-theme="sea-glass"] #open-header-settings,
+:root[data-theme="sea-glass"] .block-title-bar,
+:root[data-theme="sea-glass"] .block-title-bar h2,
+:root[data-theme="sea-glass"] .block-control {
+    color: var(--text);
+}
+
+
+:root[data-theme="sea-glass"] h1,
+:root[data-theme="sea-glass"] #local-time,
+:root[data-theme="sea-glass"] #open-header-settings {
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.82), -1px -1px 1px rgba(23, 55, 60, 0.28);
+    font-weight: 800;
+}
+:root[data-theme="sea-glass"] .block-title-bar::after {
+    background: var(--divider-accent);
+}
+
+:root[data-theme="sea-glass"] .icon-button,
+:root[data-theme="sea-glass"] .settings-dialog,
+:root[data-theme="sea-glass"] .sort-menu,
+:root[data-theme="sea-glass"] .text-button,
+:root[data-theme="sea-glass"] .checkbox-field,
+:root[data-theme="sea-glass"] .settings-dialog input,
+:root[data-theme="sea-glass"] .settings-dialog select,
+:root[data-theme="sea-glass"] .block-title-input,
+:root[data-theme="sea-glass"] .reorder-blocks-button {
+    color: var(--text);
+    border-color: rgba(120, 184, 190, 0.54);
+    background: rgba(230, 243, 246, 0.72);
+    backdrop-filter: blur(10px) saturate(125%);
+}
+
+:root[data-theme="sea-glass"] .grid-button {
+    color: var(--text);
+    border-color: rgba(120, 184, 190, 0.5);
+    background: linear-gradient(135deg, rgba(230, 243, 246, 0.52), rgba(175, 238, 238, 0.34));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 0.45rem 1.1rem rgba(23, 55, 60, 0.1);
+    backdrop-filter: blur(12px) saturate(135%);
+}
+
+:root[data-theme="sea-glass"] .grid-button:hover,
+:root[data-theme="sea-glass"] .grid-button:focus-visible,
+:root[data-theme="sea-glass"] .icon-button:hover,
+:root[data-theme="sea-glass"] .icon-button:focus-visible,
+:root[data-theme="sea-glass"] .block-control:hover,
+:root[data-theme="sea-glass"] .block-control:focus-visible,
+:root[data-theme="sea-glass"] .text-button:hover,
+:root[data-theme="sea-glass"] .text-button:focus-visible {
+    border-color: rgba(79, 127, 132, 0.72);
+    background: rgba(211, 255, 206, 0.54);
+}
+
+:root[data-theme="sea-glass"] .primary-button,
+:root[data-theme="sea-glass"] .add-block-button,
+:root[data-theme="sea-glass"] .reorder-blocks-button.is-active {
+    color: var(--text);
+    border-color: rgba(79, 127, 132, 0.55);
+    background: rgba(175, 238, 238, 0.82);
+}
+
+:root[data-theme="sea-glass"] .grid-button .fallback-icon {
+    color: var(--text);
+    background: rgba(211, 255, 206, 0.8);
+}
+
+:root[data-theme="sea-glass"] .button-card-action {
+    border-color: rgba(120, 184, 190, 0.52);
+    background: rgba(230, 243, 246, 0.86);
+    backdrop-filter: blur(10px) saturate(125%);
+}
+
+:root[data-theme="sea-glass"] #open-header-settings img,
+:root[data-theme="sea-glass"] .icon-button img,
+:root[data-theme="sea-glass"] .block-control img,
+:root[data-theme="sea-glass"] .block-reorder-handle img,
+:root[data-theme="sea-glass"] .button-card-action img,
+:root[data-theme="sea-glass"] .config-actions button img,
+:root[data-theme="sea-glass"] .reorder-blocks-button img,
+:root[data-theme="sea-glass"] .add-block-button img {
+    filter: brightness(0) saturate(100%) invert(18%) sepia(16%) saturate(1105%) hue-rotate(141deg) brightness(94%) contrast(89%);
+}
+
+:root[data-theme="sea-glass"] .settings-dialog::backdrop {
+    background: rgba(230, 243, 246, 0.64);
+}
+:root[data-theme="retro-gaming"] {
+    --bg: #d9d9d9;
+    --panel: #808080;
+    --panel-strong: #808080;
+    --border: #a0a0a0;
+    --text: #f5f1ff;
+    --muted: #d8cef4;
+    --accent: #7e5bbd;
+    --accent-strong: #56358f;
+    --divider-accent: #b9a7f2;
+}
+
+:root[data-theme="retro-gaming"] .title-bar {
+    background: #808080;
+}
+
+:root[data-theme="retro-gaming"] .block-title-bar,
+:root[data-theme="retro-gaming"] .block-title-bar h2,
+:root[data-theme="retro-gaming"] .block-control {
+    color: var(--accent);
+}
+
+:root[data-theme="retro-gaming"] .block-control img,
+:root[data-theme="retro-gaming"] .block-reorder-handle img {
+    filter: invert(42%) sepia(21%) saturate(1691%) hue-rotate(223deg) brightness(88%) contrast(87%);
+}
+
+:root[data-theme="retro-gaming"] .block-title-bar::after {
+    background: var(--accent);
+}
+
+:root[data-theme="retro-gaming"] .block-title-input {
+    border-color: var(--accent);
+}
+
+:root[data-theme="retro-gaming"] .grid-button {
+    border-color: #a0a0a0;
+    color: #292735;
+    background: #d9d9d9;
+}
+
+:root[data-theme="retro-gaming"] .grid-button:hover,
+:root[data-theme="retro-gaming"] .grid-button:focus-visible {
+    border-color: var(--accent-strong);
+    background: #cfc7e8;
+}
+
+:root[data-theme="retro-gaming"] .primary-button,
+:root[data-theme="retro-gaming"] .add-block-button,
+:root[data-theme="retro-gaming"] .reorder-blocks-button.is-active {
+    color: #f5f1ff;
+    background: var(--accent);
+}
+
+:root[data-theme="retro-gaming"] .text-button {
+    color: var(--text);
+    background: var(--panel);
+}
+
+:root[data-theme="retro-gaming"] .settings-dialog input,
+:root[data-theme="retro-gaming"] .settings-dialog select,
+:root[data-theme="retro-gaming"] .checkbox-field,
+:root[data-theme="retro-gaming"] .block-title-input {
+    color: var(--text);
+    background: var(--panel-strong);
+}
+
+:root[data-theme="night-owl"] {
+    color-scheme: dark;
+    --bg: #1e1f22;
+    --panel: #2b2d31;
+    --panel-strong: #313338;
+    --border: #3f4147;
+    --text: #f2f3f5;
+    --muted: #b5bac1;
+    --accent: #5865f2;
+    --accent-strong: #4752c4;
+    --divider-accent: #5865f2;
+}
+
+:root[data-theme="early-bird"] {
+    color-scheme: light;
+    --bg: #f7f7f5;
+    --panel: #ffffff;
+    --panel-strong: #ececeb;
+    --border: #dededb;
+    --text: #1f1f1f;
+    --muted: #737373;
+    --accent: #1f1f1f;
+    --accent-strong: #000000;
+    --divider-accent: #c9c9c6;
+}
+
+:root[data-theme="terminal"] {
+    --bg: #172417;
+    --panel: #2b412b;
+    --panel-strong: #213621;
+    --border: #3f6b3f;
+    --text: #e8ffe8;
+    --muted: #a9cfa9;
+    --accent: #3fd53f;
+    --accent-strong: #22a822;
+    --divider-accent: #3fd53f;
+}
+
+:root[data-theme="terminal-orange"] {
+    --bg: #2e0d00;
+    --panel: #7a2b02;
+    --panel-strong: #5f1f02;
+    --border: #c34901;
+    --text: #fff3df;
+    --muted: #f3c38a;
+    --accent: #f9ab2e;
+    --accent-strong: #c34901;
+    --divider-accent: #f9ab2e;
+}
+
+
+:root[data-theme="watermelon"] {
+    color-scheme: light;
+    --bg: #f9f6f4;
+    --panel: #ffffff;
+    --panel-strong: #fde8e8;
+    --border: #db6161;
+    --text: #2b2523;
+    --muted: #6c6c58;
+    --accent: #db6161;
+    --accent-strong: #157241;
+    --divider-accent: #75b855;
+}
+
+:root[data-theme="watermelon"] body {
+    color: var(--text);
+}
+
+:root[data-theme="watermelon"] .title-bar {
+    background: linear-gradient(135deg, #75b855, #157241);
+    box-shadow: 0 2px 0 #db6161, 0 0.75rem 1.4rem rgba(21, 114, 65, 0.16);
+}
+
+:root[data-theme="watermelon"] h1,
+:root[data-theme="watermelon"] #local-time,
+:root[data-theme="watermelon"] #open-header-settings {
+    color: #f9f6f4;
+    font-weight: 850;
+    text-shadow: 1px 1px 0 rgba(21, 114, 65, 0.38);
+}
+
+:root[data-theme="watermelon"] .block-title-bar,
+:root[data-theme="watermelon"] .block-title-bar h2,
+:root[data-theme="watermelon"] .block-control {
+    color: #157241;
+}
+
+:root[data-theme="watermelon"] .block-title-bar::after {
+    background: linear-gradient(90deg, #75b855, #157241);
+}
+
+:root[data-theme="watermelon"] .icon-button,
+:root[data-theme="watermelon"] .settings-dialog,
+:root[data-theme="watermelon"] .sort-menu,
+:root[data-theme="watermelon"] .text-button,
+:root[data-theme="watermelon"] .checkbox-field,
+:root[data-theme="watermelon"] .settings-dialog input,
+:root[data-theme="watermelon"] .settings-dialog select,
+:root[data-theme="watermelon"] .block-title-input,
+:root[data-theme="watermelon"] .reorder-blocks-button {
+    color: var(--text);
+    border-color: rgba(117, 184, 85, 0.48);
+    background: #ffffff;
+}
+
+:root[data-theme="watermelon"] .grid-button {
+    color: #2b2523;
+    border-color: rgba(219, 97, 97, 0.55);
+    background: linear-gradient(135deg, rgba(249, 246, 244, 0.96), rgba(253, 232, 232, 0.92));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88), 0 0.45rem 1rem rgba(173, 56, 56, 0.1);
+}
+
+:root[data-theme="watermelon"] .grid-button:hover,
+:root[data-theme="watermelon"] .grid-button:focus-visible,
+:root[data-theme="watermelon"] .icon-button:hover,
+:root[data-theme="watermelon"] .icon-button:focus-visible,
+:root[data-theme="watermelon"] .block-control:hover,
+:root[data-theme="watermelon"] .block-control:focus-visible,
+:root[data-theme="watermelon"] .text-button:hover,
+:root[data-theme="watermelon"] .text-button:focus-visible {
+    border-color: #157241;
+    background: #f1f9ee;
+}
+
+:root[data-theme="watermelon"] .primary-button,
+:root[data-theme="watermelon"] .add-block-button,
+:root[data-theme="watermelon"] .reorder-blocks-button.is-active {
+    color: #f9f6f4;
+    border-color: #157241;
+    background: #157241;
+}
+
+:root[data-theme="watermelon"] .grid-button .fallback-icon {
+    color: #f9f6f4;
+    background: #db6161;
+}
+
+:root[data-theme="watermelon"] .button-card-action {
+    border-color: rgba(21, 114, 65, 0.42);
+    background: rgba(249, 246, 244, 0.94);
+}
+
+:root[data-theme="watermelon"] #open-header-settings img,
+:root[data-theme="watermelon"] .icon-button img,
+:root[data-theme="watermelon"] .block-control img,
+:root[data-theme="watermelon"] .block-reorder-handle img,
+:root[data-theme="watermelon"] .button-card-action img,
+:root[data-theme="watermelon"] .config-actions button img,
+:root[data-theme="watermelon"] .reorder-blocks-button img {
+    filter: brightness(0) saturate(100%) invert(29%) sepia(50%) saturate(818%) hue-rotate(102deg) brightness(91%) contrast(91%);
+}
+
+:root[data-theme="watermelon"] .primary-button img,
+:root[data-theme="watermelon"] .add-block-button img,
+:root[data-theme="watermelon"] .reorder-blocks-button.is-active img {
+    filter: invert(100%);
+}
+
+:root[data-theme="watermelon"] .settings-dialog::backdrop {
+    background: rgba(249, 246, 244, 0.72);
+}
+
+:root[data-theme="navy-blue"] {
+    --bg: #07111f;
+    --panel: #0d1b2e;
+    --panel-strong: #132844;
+    --border: #25425f;
+    --text: #edf4ff;
+    --muted: #9fb4cc;
+    --accent: #39a2ff;
+    --accent-strong: #1479d1;
+    --divider-accent: #f4d97a;
+}
+
+:root[data-theme="groovy"] .reorder-blocks-button.is-active {
+    color: #5a3d2b;
+    background: #f1ad4a;
+}
+
+:root[data-theme="groovy"] .reorder-blocks-button.is-active img {
+    filter: brightness(0) saturate(100%) invert(23%) sepia(16%) saturate(1189%) hue-rotate(342deg) brightness(94%) contrast(89%);
+}
+
+:root[data-theme="retro-gaming"] .reorder-blocks-button img,
+:root[data-theme="retro-gaming"] .reorder-blocks-button.is-active img {
+    filter: invert(42%) sepia(21%) saturate(1691%) hue-rotate(223deg) brightness(88%) contrast(87%);
+}
+
+:root[data-theme="retro-gaming"] .reorder-blocks-button.is-active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: #d9d9d9;
+}
+
+:root[data-theme="retro-gaming"] h1,
+:root[data-theme="retro-gaming"] #local-time,
+:root[data-theme="retro-gaming"] #open-header-settings {
+    color: #d9d9d9;
+}
+
+:root[data-theme="retro-gaming"] #open-header-settings img {
+    filter: invert(94%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(94%) contrast(89%);
+}
+
+:root[data-theme="retro-gaming"] .button-card-action {
+    border-color: var(--accent);
+}
+
+:root[data-theme="retro-gaming"] .button-card-action img {
+    filter: invert(42%) sepia(21%) saturate(1691%) hue-rotate(223deg) brightness(88%) contrast(87%);
+}
+
+:root[data-theme="terminal"] .grid-button,
+:root[data-theme="terminal"] .title-bar {
+    position: relative;
+    overflow: hidden;
+}
+
+:root[data-theme="terminal"] .grid-button::after,
+:root[data-theme="terminal"] .title-bar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(63, 213, 63, 0.16) 0,
+        rgba(63, 213, 63, 0.16) 1px,
+        transparent 1px,
+        transparent 4px
+    );
+    mix-blend-mode: screen;
+    opacity: 0.42;
+}
+
+:root[data-theme="terminal"] .title-bar > * {
+    position: relative;
+    z-index: 1;
+}
+
+:root[data-theme="terminal"] .icon-button img,
+:root[data-theme="terminal"] .block-control img,
+:root[data-theme="terminal"] .block-reorder-handle img,
+:root[data-theme="terminal"] .button-card-action img,
+:root[data-theme="terminal"] .config-actions button img,
+:root[data-theme="terminal"] .reorder-blocks-button img,
+:root[data-theme="terminal"] .add-block-button img {
+    filter: brightness(0) saturate(100%) invert(70%) sepia(97%) saturate(553%) hue-rotate(68deg) brightness(91%) contrast(84%);
+}
+
+:root[data-theme="terminal-orange"] .grid-button,
+:root[data-theme="terminal-orange"] .title-bar {
+    position: relative;
+    overflow: hidden;
+}
+
+:root[data-theme="terminal-orange"] .grid-button::after,
+:root[data-theme="terminal-orange"] .title-bar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(249, 171, 46, 0.16) 0,
+        rgba(249, 171, 46, 0.16) 1px,
+        transparent 1px,
+        transparent 4px
+    );
+    mix-blend-mode: screen;
+    opacity: 0.42;
+}
+
+:root[data-theme="terminal-orange"] .title-bar > * {
+    position: relative;
+    z-index: 1;
+}
+
+:root[data-theme="terminal-orange"] .icon-button img,
+:root[data-theme="terminal-orange"] .block-control img,
+:root[data-theme="terminal-orange"] .block-reorder-handle img,
+:root[data-theme="terminal-orange"] .button-card-action img,
+:root[data-theme="terminal-orange"] .config-actions button img,
+:root[data-theme="terminal-orange"] .reorder-blocks-button img,
+:root[data-theme="terminal-orange"] .add-block-button img {
+    filter: brightness(0) saturate(100%) invert(74%) sepia(68%) saturate(1236%) hue-rotate(339deg) brightness(101%) contrast(96%);
+}
+
+:root[data-theme="early-bird"] .title-bar {
+    background: #ffffff;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), 0 0.7rem 1.4rem rgba(0, 0, 0, 0.04);
+}
+
+:root[data-theme="early-bird"] h1,
+:root[data-theme="early-bird"] #local-time,
+:root[data-theme="early-bird"] #open-header-settings,
+:root[data-theme="early-bird"] .block-title-bar,
+:root[data-theme="early-bird"] .block-title-bar h2,
+:root[data-theme="early-bird"] .block-control {
+    color: var(--text);
+}
+
+:root[data-theme="early-bird"] .block-title-bar::after {
+    background: #f1ad4a;
+}
+
+:root[data-theme="early-bird"] .icon-button,
+:root[data-theme="early-bird"] .grid-button,
+:root[data-theme="early-bird"] .settings-dialog,
+:root[data-theme="early-bird"] .sort-menu,
+:root[data-theme="early-bird"] .text-button,
+:root[data-theme="early-bird"] .checkbox-field,
+:root[data-theme="early-bird"] .settings-dialog input,
+:root[data-theme="early-bird"] .settings-dialog select,
+:root[data-theme="early-bird"] .block-title-input {
+    color: var(--text);
+    background: var(--panel);
+}
+
+:root[data-theme="early-bird"] .grid-button:hover,
+:root[data-theme="early-bird"] .grid-button:focus-visible,
+:root[data-theme="early-bird"] .icon-button:hover,
+:root[data-theme="early-bird"] .icon-button:focus-visible,
+:root[data-theme="early-bird"] .block-control:hover,
+:root[data-theme="early-bird"] .block-control:focus-visible,
+:root[data-theme="early-bird"] .text-button:hover,
+:root[data-theme="early-bird"] .text-button:focus-visible {
+    border-color: #b7b7b3;
+    background: var(--panel-strong);
+}
+
+:root[data-theme="early-bird"] .primary-button,
+:root[data-theme="early-bird"] .add-block-button,
+:root[data-theme="early-bird"] .reorder-blocks-button.is-active {
+    color: #ffffff;
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
+:root[data-theme="early-bird"] .reorder-blocks-button {
+    color: var(--text);
+    background: var(--panel);
+}
+
+:root[data-theme="early-bird"] .icon-button img,
+:root[data-theme="early-bird"] .block-control img,
+:root[data-theme="early-bird"] .block-reorder-handle img,
+:root[data-theme="early-bird"] .button-card-action img,
+:root[data-theme="early-bird"] .config-actions button img,
+:root[data-theme="early-bird"] .reorder-blocks-button img,
+:root[data-theme="early-bird"] .add-block-button img {
+    filter: brightness(0) saturate(100%) invert(12%) sepia(0%) saturate(0%) hue-rotate(189deg) brightness(92%) contrast(92%);
+}
+
+:root[data-theme="early-bird"] .primary-button img,
+:root[data-theme="early-bird"] .add-block-button img,
+:root[data-theme="early-bird"] .reorder-blocks-button.is-active img {
+    filter: invert(100%);
+}
+
+:root[data-theme="early-bird"] .grid-button .fallback-icon {
+    color: #ffffff;
+    background: #8a8a86;
+}
+
+:root[data-theme="early-bird"] .button-card-action {
+    border-color: #c7c7c3;
+    background: rgba(255, 255, 255, 0.92);
+}
+
+:root[data-theme="early-bird"] .settings-dialog::backdrop {
+    background: rgba(246, 246, 244, 0.72);
+}
+
+:root[data-theme="night-owl"] .title-bar {
+    background: #1a1b1e;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04), 0 0.7rem 1.4rem rgba(0, 0, 0, 0.28);
+}
+
+:root[data-theme="night-owl"] h1,
+:root[data-theme="night-owl"] #local-time,
+:root[data-theme="night-owl"] #open-header-settings {
+    color: var(--text);
+}
+
+:root[data-theme="night-owl"] .block-title-bar,
+:root[data-theme="night-owl"] .block-title-bar h2,
+:root[data-theme="night-owl"] .block-control {
+    color: var(--muted);
+}
+
+:root[data-theme="night-owl"] .block-title-bar::after {
+    background: #3f4147;
+}
+
+:root[data-theme="night-owl"] .grid-button,
+:root[data-theme="night-owl"] .settings-dialog,
+:root[data-theme="night-owl"] .sort-menu,
+:root[data-theme="night-owl"] .text-button,
+:root[data-theme="night-owl"] .checkbox-field,
+:root[data-theme="night-owl"] .settings-dialog input,
+:root[data-theme="night-owl"] .settings-dialog select,
+:root[data-theme="night-owl"] .block-title-input,
+:root[data-theme="night-owl"] .reorder-blocks-button,
+:root[data-theme="night-owl"] .icon-button {
+    color: var(--text);
+    background: var(--panel);
+}
+
+:root[data-theme="night-owl"] .grid-button:hover,
+:root[data-theme="night-owl"] .grid-button:focus-visible,
+:root[data-theme="night-owl"] .icon-button:hover,
+:root[data-theme="night-owl"] .icon-button:focus-visible,
+:root[data-theme="night-owl"] .block-control:hover,
+:root[data-theme="night-owl"] .block-control:focus-visible,
+:root[data-theme="night-owl"] .text-button:hover,
+:root[data-theme="night-owl"] .text-button:focus-visible {
+    border-color: var(--accent);
+    background: var(--panel-strong);
+}
+
+:root[data-theme="night-owl"] .primary-button,
+:root[data-theme="night-owl"] .add-block-button,
+:root[data-theme="night-owl"] .reorder-blocks-button.is-active {
+    color: #ffffff;
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
+:root[data-theme="night-owl"] .grid-button .fallback-icon {
+    color: #ffffff;
+    background: var(--accent);
+}
+
+:root[data-theme="night-owl"] .settings-dialog::backdrop {
+    background: rgba(10, 11, 13, 0.72);
+}
+
+:root[data-theme="night-owl"] .button-card-action {
+    border-color: var(--border);
+    background: rgba(43, 45, 49, 0.92);
+}
+
+:root[data-theme="night-owl"] #open-header-settings img,
+:root[data-theme="night-owl"] .icon-button img,
+:root[data-theme="night-owl"] .block-control img,
+:root[data-theme="night-owl"] .block-reorder-handle img,
+:root[data-theme="night-owl"] .button-card-action img,
+:root[data-theme="night-owl"] .config-actions button img,
+:root[data-theme="night-owl"] .reorder-blocks-button img {
+    filter: brightness(0) saturate(100%) invert(41%) sepia(78%) saturate(2454%) hue-rotate(222deg) brightness(98%) contrast(94%);
+}
+
+:root[data-theme="night-owl"] .primary-button img,
+:root[data-theme="night-owl"] .add-block-button img,
+:root[data-theme="night-owl"] .reorder-blocks-button.is-active img {
+    filter: invert(100%);
+}
+
+:root[data-theme="retro-gaming"] .block-title-counter {
+    color: #808080;
+}
+
