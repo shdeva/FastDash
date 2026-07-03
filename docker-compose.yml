@@ -18,16 +18,20 @@
       - |
         set -eu
         apk add --no-cache git
+        addgroup -S -g 568 fastdash 2>/dev/null || true
+        adduser -S -D -H -u 568 -G fastdash fastdash 2>/dev/null || true
         mkdir -p /data/config /data/client_temp /tmp/site
-        chown -R 568:568 /data
+        chown -R fastdash:fastdash /data
         rm -rf /tmp/source /tmp/site/*
         git clone --depth 1 --branch "$${GIT_BRANCH}" "$${GIT_REPO}" /tmp/source
         cp -a /tmp/source/. /tmp/site/
         rm -rf /tmp/site/.git
         cp /tmp/site/nginx-webdav.conf /etc/nginx/conf.d/default.conf
-        chown -R 568:568 /tmp/site
-        sed -i 's/^user .*/user 568 568;/' /etc/nginx/nginx.conf
+        chown -R fastdash:fastdash /tmp/site
+        sed -i 's/^user .*/user fastdash fastdash;/' /etc/nginx/nginx.conf
+        nginx -t
         exec nginx -g 'daemon off;'
     security_opt:
       - no-new-privileges:true
+
 
