@@ -18,8 +18,8 @@
       - |
         set -eu
         apk add --no-cache git
-        mkdir -p /data/config /tmp/site /tmp/client_temp
-        chown -R 568:568 /data /tmp/client_temp
+        mkdir -p /data/config /data/client_temp /tmp/site
+        chown -R 568:568 /data
         rm -rf /tmp/source /tmp/site/*
         git clone --depth 1 --branch "$${GIT_BRANCH}" "$${GIT_REPO}" /tmp/source
         cp -a /tmp/source/. /tmp/site/
@@ -30,3 +30,4 @@
         exec nginx -g 'daemon off;'
     security_opt:
       - no-new-privileges:true
+
