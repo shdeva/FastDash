@@ -1,4 +1,4 @@
-﻿﻿const USER_CONFIG_PATH = "config/FastDash_userconfig.json";
+const USER_CONFIG_PATH = "config/FastDash_userconfig.json";
 const DEFAULT_CONFIG_PATH = "FastDash_defaultconfig.json";
 const USER_CONFIG_SAVE_DEBOUNCE_MS = 250;
 const MAX_TITLE_LENGTH = 60;
@@ -762,6 +762,7 @@ function createButtonCard(block, button) {
     const actions = document.createElement("div");
     actions.className = "button-card-actions";
     actions.append(
+        createButtonAction("upload-button-image", "Upload button image", "iconify/meteor-icons--upload.svg", "upload-button-image", button.id),
         createButtonAction("edit-button", "Edit button", "iconify/meteor-icons--pencil.svg", "edit-button", button.id),
         createButtonAction("delete-button", "Delete button", "iconify/meteor-icons--trash-can.svg", "delete-button", button.id)
     );
