@@ -263,6 +263,7 @@ const addButtonDialog = document.querySelector("#add-button-dialog");
 const addButtonForm = document.querySelector("#add-button-form");
 const newButtonText = document.querySelector("#new-button-text");
 const newButtonUrl = document.querySelector("#new-button-url");
+const newButtonIcon = document.querySelector("#new-button-icon");
 const closeAddButtonDialog = document.querySelector("#close-add-button-dialog");
 const cancelAddButton = document.querySelector("#cancel-add-button");
 const editButtonDialog = document.querySelector("#edit-button-dialog");
@@ -270,6 +271,7 @@ const editButtonForm = document.querySelector("#edit-button-form");
 const editButtonId = document.querySelector("#edit-button-id");
 const editButtonText = document.querySelector("#edit-button-text");
 const editButtonUrl = document.querySelector("#edit-button-url");
+const editButtonIcon = document.querySelector("#edit-button-icon");
 const closeEditButtonDialog = document.querySelector("#close-edit-button-dialog");
 const cancelEditButton = document.querySelector("#cancel-edit-button");
 const deleteButtonDialog = document.querySelector("#delete-button-dialog");
@@ -296,6 +298,7 @@ const MAX_BLOCKS = 32;
 const MAX_BUTTONS_PER_BLOCK = 100;
 const MAX_BUTTON_TEXT_LENGTH = 30;
 const MAX_BUTTON_URL_LENGTH = 120;
+const MAX_BUTTON_ICON_URL_LENGTH = 500;
 const FAVICON_CANDIDATE_TIMEOUT_MS = 800;
 
 let editingBlockId = "";
@@ -373,12 +376,20 @@ function getBlocks() {
 function sanitizeButton(button = {}) {
     const url = trimToLength(button.url, MAX_BUTTON_URL_LENGTH);
     const text = trimToLength(button.text, MAX_BUTTON_TEXT_LENGTH) || "New Button";
+    let icon = "";
+
+    try {
+        icon = normalizeIconUrl(button.icon);
+    } catch {
+        icon = "";
+    }
 
     return {
         ...button,
         id: String(button.id || createId()),
         text,
         url,
+        icon,
         favicon: trimToLength(button.favicon, MAX_BUTTON_URL_LENGTH) || faviconForUrl(url),
         addedAt: Number.isFinite(button.addedAt) ? button.addedAt : Date.now()
     };
@@ -498,6 +509,19 @@ function normalizeUrl(rawUrl) {
     const probeUrl = new URL(hasProtocol ? trimmed : `http://${trimmed}`);
     const protocol = hasProtocol ? "" : isLocalAddressHost(probeUrl.hostname) ? "http://" : "https://";
     return new URL(hasProtocol ? trimmed : `${protocol}${trimmed}`).href;
+}
+
+function normalizeIconUrl(rawUrl) {
+    const raw = String(rawUrl ?? "").trim();
+    if (!raw) return "";
+    if (raw.length > MAX_BUTTON_ICON_URL_LENGTH) throw new Error("Image URL is too long.");
+
+    const parsed = new URL(raw);
+    if (!["http:", "https:", "data:"].includes(parsed.protocol)) {
+        throw new Error("Unsupported image URL protocol.");
+    }
+
+    return parsed.href;
 }
 
 function faviconForUrl(url) {
@@ -710,20 +734,26 @@ function createButtonCard(block, button) {
     link.addEventListener("click", () => recordButtonClick(block.id, button.id));
 
     const icon = document.createElement("img");
-    const faviconCandidates = faviconCandidatesForUrl(button.url, button.favicon);
-    let faviconCandidateIndex = 0;
-    let faviconTimeoutId = 0;
+    icon.alt = "";
+    icon.loading = "lazy";
+
+    const iconCandidates = [
+        button.icon,
+        ...faviconCandidatesForUrl(button.url, button.favicon)
+    ].filter((candidate, index, candidates) => candidate && candidates.indexOf(candidate) === index);
+    let iconCandidateIndex = 0;
+    let iconTimeoutId = 0;
     let fallbackShown = false;
 
-    const clearFaviconTimeout = () => {
-        if (faviconTimeoutId) window.clearTimeout(faviconTimeoutId);
-        faviconTimeoutId = 0;
+    const clearIconTimeout = () => {
+        if (iconTimeoutId) window.clearTimeout(iconTimeoutId);
+        iconTimeoutId = 0;
     };
 
     const showFallbackIcon = () => {
         if (fallbackShown) return;
         fallbackShown = true;
-        clearFaviconTimeout();
+        clearIconTimeout();
 
         const fallback = document.createElement("span");
         fallback.className = "fallback-icon";
@@ -731,29 +761,27 @@ function createButtonCard(block, button) {
         icon.replaceWith(fallback);
     };
 
-    const loadFaviconCandidate = () => {
-        clearFaviconTimeout();
+    const loadIconCandidate = () => {
+        clearIconTimeout();
 
-        if (faviconCandidateIndex >= faviconCandidates.length) {
+        if (iconCandidateIndex >= iconCandidates.length) {
             showFallbackIcon();
             return;
         }
 
-        icon.src = faviconCandidates[faviconCandidateIndex];
-        faviconTimeoutId = window.setTimeout(() => {
-            faviconCandidateIndex += 1;
-            loadFaviconCandidate();
+        icon.src = iconCandidates[iconCandidateIndex];
+        iconTimeoutId = window.setTimeout(() => {
+            iconCandidateIndex += 1;
+            loadIconCandidate();
         }, FAVICON_CANDIDATE_TIMEOUT_MS);
     };
 
-    icon.alt = "";
-    icon.loading = "lazy";
-    icon.addEventListener("load", clearFaviconTimeout);
+    icon.addEventListener("load", clearIconTimeout);
     icon.addEventListener("error", () => {
-        faviconCandidateIndex += 1;
-        loadFaviconCandidate();
+        iconCandidateIndex += 1;
+        loadIconCandidate();
     });
-    loadFaviconCandidate();
+    loadIconCandidate();
 
     const label = document.createElement("span");
     label.textContent = button.text;
@@ -762,7 +790,7 @@ function createButtonCard(block, button) {
     const actions = document.createElement("div");
     actions.className = "button-card-actions";
     actions.append(
-        createButtonAction("upload-button-image", "Upload button image", "iconify/meteor-icons--image.svg", "upload-button-image", button.id),
+        createButtonAction("edit-button-image", "Edit button image URL", "iconify/meteor-icons--image.svg", "edit-button-image", button.id),
         createButtonAction("edit-button", "Edit button", "iconify/meteor-icons--pencil.svg", "edit-button", button.id),
         createButtonAction("delete-button", "Delete button", "iconify/meteor-icons--trash-can.svg", "delete-button", button.id)
     );
@@ -1042,18 +1070,28 @@ function openAddButtonDialog(blockId) {
     activeButtonBlockId = blockId;
     addButtonForm?.reset();
     newButtonUrl.setCustomValidity("");
+    newButtonIcon?.setCustomValidity("");
     addButtonDialog.showModal();
     newButtonText.focus();
 }
 
 function addButtonFromDialog() {
     let url;
+    let icon;
 
     try {
         url = normalizeUrl(newButtonUrl.value);
     } catch {
         newButtonUrl.setCustomValidity("Enter a valid URL or domain.");
         newButtonUrl.reportValidity();
+        return;
+    }
+
+    try {
+        icon = normalizeIconUrl(newButtonIcon?.value);
+    } catch {
+        newButtonIcon?.setCustomValidity("Enter a full image URL that starts with http://, https://, or data:.");
+        newButtonIcon?.reportValidity();
         return;
     }
 
@@ -1067,6 +1105,7 @@ function addButtonFromDialog() {
     }
 
     newButtonUrl.setCustomValidity("");
+    newButtonIcon?.setCustomValidity("");
     updateBlock(activeButtonBlockId, (block) => ({
         ...block,
         buttons: [
@@ -1075,6 +1114,7 @@ function addButtonFromDialog() {
                 id: createId(),
                 text,
                 url,
+                icon,
                 favicon: faviconForUrl(url),
                 addedAt: Date.now()
             }
@@ -1092,7 +1132,9 @@ function openEditButtonDialog(blockId, buttonId) {
     editButtonId.value = button.id;
     editButtonText.value = button.text;
     editButtonUrl.value = button.url;
+    if (editButtonIcon) editButtonIcon.value = button.icon || "";
     editButtonUrl.setCustomValidity("");
+    editButtonIcon?.setCustomValidity("");
     editButtonDialog.showModal();
     editButtonText.focus();
     editButtonText.select();
@@ -1100,6 +1142,7 @@ function openEditButtonDialog(blockId, buttonId) {
 
 function saveEditedButton() {
     let url;
+    let icon;
 
     try {
         url = normalizeUrl(editButtonUrl.value);
@@ -1109,13 +1152,22 @@ function saveEditedButton() {
         return;
     }
 
+    try {
+        icon = normalizeIconUrl(editButtonIcon?.value);
+    } catch {
+        editButtonIcon?.setCustomValidity("Enter a full image URL that starts with http://, https://, or data:.");
+        editButtonIcon?.reportValidity();
+        return;
+    }
+
     const text = trimToLength(editButtonText.value, MAX_BUTTON_TEXT_LENGTH);
     if (!text || !activeButtonBlockId) return;
 
     editButtonUrl.setCustomValidity("");
+    editButtonIcon?.setCustomValidity("");
     updateBlock(activeButtonBlockId, (block) => ({
         ...block,
-        buttons: block.buttons.map((button) => button.id === editButtonId.value ? { ...button, text, url, favicon: faviconForUrl(url) } : button)
+        buttons: block.buttons.map((button) => button.id === editButtonId.value ? { ...button, text, url, icon, favicon: faviconForUrl(url) } : button)
     }));
     editButtonDialog.close();
 }
@@ -1243,7 +1295,7 @@ buttonBlocks?.addEventListener("click", (event) => {
     if (control.dataset.action === "move-up") moveBlockByStep(blockId, -1);
     if (control.dataset.action === "move-down") moveBlockByStep(blockId, 1);
     if (control.dataset.action === "delete-block") openDeleteBlockDialog(blockId);
-    if (control.dataset.action === "edit-button") openEditButtonDialog(blockId, control.dataset.buttonId);
+    if (control.dataset.action === "edit-button" || control.dataset.action === "edit-button-image") openEditButtonDialog(blockId, control.dataset.buttonId);
     if (control.dataset.action === "delete-button") openDeleteButtonDialog(blockId, control.dataset.buttonId);
 });
 
@@ -1354,6 +1406,7 @@ addButtonForm?.addEventListener("submit", (event) => {
     addButtonFromDialog();
 });
 newButtonUrl?.addEventListener("input", () => newButtonUrl.setCustomValidity(""));
+newButtonIcon?.addEventListener("input", () => newButtonIcon.setCustomValidity(""));
 closeAddButtonDialog?.addEventListener("click", () => addButtonDialog.close());
 cancelAddButton?.addEventListener("click", () => addButtonDialog.close());
 addButtonDialog?.addEventListener("click", (event) => {
@@ -1365,6 +1418,7 @@ editButtonForm?.addEventListener("submit", (event) => {
     saveEditedButton();
 });
 editButtonUrl?.addEventListener("input", () => editButtonUrl.setCustomValidity(""));
+editButtonIcon?.addEventListener("input", () => editButtonIcon.setCustomValidity(""));
 closeEditButtonDialog?.addEventListener("click", () => editButtonDialog.close());
 cancelEditButton?.addEventListener("click", () => editButtonDialog.close());
 editButtonDialog?.addEventListener("click", (event) => {
