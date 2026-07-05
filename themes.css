@@ -1,5 +1,11 @@
 ﻿/* Theme-specific variables and overrides. */
 
+@font-face {
+    font-family: "Super Plumber Brothers";
+    src: url("Fonts/SuperPlumberBrothers-y00V.ttf") format("truetype");
+    font-display: swap;
+}
+
 :root[data-theme="groovy"] {
     --bg: #ffecb4;
     --panel: #5a3d2b;
@@ -705,8 +711,71 @@
     color: #d9d9d9;
 }
 
+:root[data-theme="retro-gaming"] #header-title {
+    display: inline-block;
+    padding-bottom: 0.28rem;
+    border-bottom: 0.32rem solid #b9a7f2;
+    color: #f5f1ff;
+    font-family: "Super Plumber Brothers", var(--site-font);
+    font-weight: 400;
+    letter-spacing: 0;
+    text-shadow:
+        0 2px 0 #56358f,
+        2px 0 0 #ffffff,
+        -2px 0 0 #4b3a78,
+        0 -2px 0 #ffffff,
+        3px 4px 0 rgba(41, 39, 53, 0.62);
+}
+
 :root[data-theme="retro-gaming"] #open-header-settings img {
     filter: invert(94%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(94%) contrast(89%);
+}
+
+:root[data-theme="retro-gaming"] #open-header-settings,
+:root[data-theme="retro-gaming"] .reorder-blocks-button,
+:root[data-theme="retro-gaming"] .add-block-button {
+    border: 3px solid #4b3a78;
+    background:
+        radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.82) 0 14%, transparent 15%),
+        linear-gradient(145deg, #d7cafc 0%, #9d83df 44%, #6845aa 100%);
+    box-shadow:
+        inset 0 0.32rem 0 rgba(255, 255, 255, 0.52),
+        inset 0 -0.36rem 0 rgba(45, 31, 78, 0.58),
+        0 0.42rem 0 #3c2f60,
+        0 0.72rem 1.2rem rgba(41, 39, 53, 0.48);
+}
+
+:root[data-theme="retro-gaming"] #open-header-settings:hover,
+:root[data-theme="retro-gaming"] #open-header-settings:focus-visible,
+:root[data-theme="retro-gaming"] .reorder-blocks-button:hover,
+:root[data-theme="retro-gaming"] .reorder-blocks-button:focus-visible,
+:root[data-theme="retro-gaming"] .add-block-button:hover,
+:root[data-theme="retro-gaming"] .add-block-button:focus-visible {
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+    box-shadow:
+        inset 0 0.34rem 0 rgba(255, 255, 255, 0.58),
+        inset 0 -0.38rem 0 rgba(45, 31, 78, 0.62),
+        0 0.52rem 0 #3c2f60,
+        0 0.9rem 1.35rem rgba(41, 39, 53, 0.52);
+}
+
+:root[data-theme="retro-gaming"] #open-header-settings:active,
+:root[data-theme="retro-gaming"] .reorder-blocks-button:active,
+:root[data-theme="retro-gaming"] .add-block-button:active {
+    transform: translateY(0.22rem);
+    box-shadow:
+        inset 0 0.16rem 0 rgba(255, 255, 255, 0.4),
+        inset 0 -0.18rem 0 rgba(45, 31, 78, 0.54),
+        0 0.18rem 0 #3c2f60,
+        0 0.38rem 0.7rem rgba(41, 39, 53, 0.44);
+}
+
+:root[data-theme="retro-gaming"] .add-block-button img,
+:root[data-theme="retro-gaming"] .reorder-blocks-button img,
+:root[data-theme="retro-gaming"] .reorder-blocks-button.is-active img,
+:root[data-theme="retro-gaming"] #open-header-settings img {
+    filter: invert(96%) sepia(10%) saturate(679%) hue-rotate(208deg) brightness(104%) contrast(101%);
 }
 
 :root[data-theme="retro-gaming"] .button-card-action {
