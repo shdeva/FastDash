@@ -536,6 +536,11 @@
         0 0.24rem 0.52rem rgba(41, 39, 53, 0.22);
 }
 
+:root[data-theme="retro-gaming"] .button-grid {
+    padding-right: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+
 :root[data-theme="retro-gaming"] .grid-button:hover,
 :root[data-theme="retro-gaming"] .grid-button:focus-visible {
     border-color: var(--accent-strong);
