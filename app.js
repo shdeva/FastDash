@@ -762,7 +762,7 @@ function createButtonCard(block, button) {
     const actions = document.createElement("div");
     actions.className = "button-card-actions";
     actions.append(
-        createButtonAction("upload-button-image", "Upload button image", "iconify/meteor-icons--upload.svg", "upload-button-image", button.id),
+        createButtonAction("upload-button-image", "Upload button image", "iconify/meteor-icons--image.svg", "upload-button-image", button.id),
         createButtonAction("edit-button", "Edit button", "iconify/meteor-icons--pencil.svg", "edit-button", button.id),
         createButtonAction("delete-button", "Delete button", "iconify/meteor-icons--trash-can.svg", "delete-button", button.id)
     );

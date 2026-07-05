@@ -90,6 +90,12 @@ h1 {
     background: var(--panel);
 }
 
+#open-header-settings {
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 999px;
+}
+
 .icon-button img {
     width: 1.35rem;
     height: 1.35rem;
