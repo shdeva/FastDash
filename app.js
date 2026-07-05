@@ -19,6 +19,22 @@ let userConfig = {
 let saveConfigTimeoutId = 0;
 let saveConfigInFlight = Promise.resolve();
 
+function cacheBustedPath(path) {
+    const separator = path.includes("?") ? "&" : "?";
+    return `${path}${separator}_=${Date.now()}`;
+}
+
+function uncachedFetch(path, options = {}) {
+    return fetch(cacheBustedPath(path), {
+        ...options,
+        cache: "no-store",
+        headers: {
+            "Cache-Control": "no-cache",
+            ...(options.headers || {})
+        }
+    });
+}
+
 const fontFamilies = {
     arial: "Arial, Helvetica, sans-serif",
     courier: `"Courier New", Courier, monospace`,
@@ -181,7 +197,7 @@ async function exportConfiguration() {
 
     let json;
     try {
-        const response = await fetch(USER_CONFIG_PATH, { cache: "no-store" });
+        const response = await uncachedFetch(USER_CONFIG_PATH);
         if (!response.ok) throw new Error(`Config download failed with HTTP ${response.status}.`);
         json = await response.text();
     } catch (error) {
@@ -433,7 +449,7 @@ function normalizeUserConfiguration(data = {}) {
 
 async function loadDefaultConfiguration() {
     try {
-        const response = await fetch(DEFAULT_CONFIG_PATH, { cache: "no-store" });
+        const response = await uncachedFetch(DEFAULT_CONFIG_PATH);
         if (response.ok) return normalizeUserConfiguration(await response.json());
         throw new Error(`Default config load failed with HTTP ${response.status}.`);
     } catch (error) {
@@ -444,7 +460,7 @@ async function loadDefaultConfiguration() {
 
 async function loadUserConfiguration() {
     try {
-        const response = await fetch(USER_CONFIG_PATH, { cache: "no-store" });
+        const response = await uncachedFetch(USER_CONFIG_PATH);
         if (response.ok) {
             userConfig = normalizeUserConfiguration(await response.json());
             return;
