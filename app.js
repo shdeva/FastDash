@@ -481,10 +481,18 @@ async function saveUserConfiguration() {
             });
 
             if (!response.ok) throw new Error(`Config save failed with HTTP ${response.status}.`);
+            return true;
         })
-        .catch((error) => console.warn("FastDash could not save the user config file.", error));
+        .catch((error) => {
+            console.warn("FastDash could not save the user config file.", error);
+            return false;
+        });
 
     return saveConfigInFlight;
+}
+
+function warnConfigurationSaveFailed() {
+    alert("FastDash could not save the user config file. This change is visible in this browser for now, but other devices will not see it until the config save succeeds.");
 }
 
 function updateBlock(blockId, updater) {
@@ -1074,7 +1082,7 @@ function openAddButtonDialog(blockId) {
     newButtonText.focus();
 }
 
-function addButtonFromDialog() {
+async function addButtonFromDialog() {
     let url;
     let icon;
 
@@ -1119,6 +1127,13 @@ function addButtonFromDialog() {
             }
         ]
     }));
+
+    const saved = await saveUserConfiguration();
+    if (!saved) {
+        warnConfigurationSaveFailed();
+        return;
+    }
+
     addButtonDialog.close();
 }
 
@@ -1139,7 +1154,7 @@ function openEditButtonDialog(blockId, buttonId) {
     editButtonText.select();
 }
 
-function saveEditedButton() {
+async function saveEditedButton() {
     let url;
     let icon;
 
@@ -1168,6 +1183,13 @@ function saveEditedButton() {
         ...block,
         buttons: block.buttons.map((button) => button.id === editButtonId.value ? { ...button, text, url, icon, favicon: faviconForUrl(url) } : button)
     }));
+
+    const saved = await saveUserConfiguration();
+    if (!saved) {
+        warnConfigurationSaveFailed();
+        return;
+    }
+
     editButtonDialog.close();
 }
 
@@ -1400,9 +1422,9 @@ document.addEventListener("click", (event) => {
 
 reorderBlocksButton?.addEventListener("click", toggleReorderMode);
 addBlockButton?.addEventListener("click", addBlankBlock);
-addButtonForm?.addEventListener("submit", (event) => {
+addButtonForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
-    addButtonFromDialog();
+    await addButtonFromDialog();
 });
 newButtonUrl?.addEventListener("input", () => newButtonUrl.setCustomValidity(""));
 newButtonIcon?.addEventListener("input", () => newButtonIcon.setCustomValidity(""));
@@ -1412,9 +1434,9 @@ addButtonDialog?.addEventListener("click", (event) => {
     if (event.target === addButtonDialog) addButtonDialog.close();
 });
 
-editButtonForm?.addEventListener("submit", (event) => {
+editButtonForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
-    saveEditedButton();
+    await saveEditedButton();
 });
 editButtonUrl?.addEventListener("input", () => editButtonUrl.setCustomValidity(""));
 editButtonIcon?.addEventListener("input", () => editButtonIcon.setCustomValidity(""));
