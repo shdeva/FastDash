@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     color-scheme: dark;
     --bg: #07111f;
     --panel: #0d1b2e;
@@ -402,11 +402,20 @@ h1 {
     gap: 0.5rem;
 }
 
-.config-actions button img {
+.config-actions button img,
+.upload-image-button img {
     width: 1.1rem;
     height: 1.1rem;
     flex: 0 0 auto;
     filter: invert(89%) sepia(39%) saturate(583%) hue-rotate(355deg) brightness(102%) contrast(91%);
+}
+
+.upload-image-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
 }
 
 .config-actions .danger-button img {
