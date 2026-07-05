@@ -49,7 +49,7 @@
         #e5771e 60% 80%,
         #5a3d2b 80% 100%
     );
-    box-shadow: 4px 4px 0 #2b2b2b;
+    box-shadow: 0 0.7rem 1.4rem rgba(43, 43, 43, 0.28);
 }
 
 :root[data-theme="groovy"] #local-time,
@@ -73,6 +73,10 @@
 
 :root[data-theme="groovy"] #open-header-settings img {
     filter: brightness(0) saturate(100%) invert(23%) sepia(16%) saturate(1189%) hue-rotate(342deg) brightness(94%) contrast(89%);
+}
+
+:root[data-theme="groovy"] .reorder-blocks-button:not(.is-active) img {
+    filter: brightness(0) saturate(100%) invert(92%) sepia(18%) saturate(851%) hue-rotate(335deg) brightness(103%) contrast(104%);
 }
 
 :root[data-theme="groovy"] .button-block,
@@ -148,6 +152,13 @@
 :root[data-theme="groovy"] .grid-button .fallback-icon {
     color: #5a3d2b;
     background: #75c8ae;
+}
+
+@media (max-width: 520px) {
+    :root[data-theme="groovy"] #header-title,
+    :root[data-theme="groovy"] #local-time {
+        text-shadow: 2px 2px 0 #2b2b2b;
+    }
 }
 
 
