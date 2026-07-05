@@ -790,7 +790,6 @@ function createButtonCard(block, button) {
     const actions = document.createElement("div");
     actions.className = "button-card-actions";
     actions.append(
-        createButtonAction("edit-button-image", "Edit button image URL", "iconify/meteor-icons--image.svg", "edit-button-image", button.id),
         createButtonAction("edit-button", "Edit button", "iconify/meteor-icons--pencil.svg", "edit-button", button.id),
         createButtonAction("delete-button", "Delete button", "iconify/meteor-icons--trash-can.svg", "delete-button", button.id)
     );
@@ -1295,7 +1294,7 @@ buttonBlocks?.addEventListener("click", (event) => {
     if (control.dataset.action === "move-up") moveBlockByStep(blockId, -1);
     if (control.dataset.action === "move-down") moveBlockByStep(blockId, 1);
     if (control.dataset.action === "delete-block") openDeleteBlockDialog(blockId);
-    if (control.dataset.action === "edit-button" || control.dataset.action === "edit-button-image") openEditButtonDialog(blockId, control.dataset.buttonId);
+    if (control.dataset.action === "edit-button") openEditButtonDialog(blockId, control.dataset.buttonId);
     if (control.dataset.action === "delete-button") openDeleteButtonDialog(blockId, control.dataset.buttonId);
 });
 
