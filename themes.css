@@ -24,6 +24,18 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: "Bloomingworth Bold";
+    src: url("Fonts/BloomingworthBold-yqW5.ttf") format("truetype");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Commanders";
+    src: url("Fonts/Commanders-VxLy.ttf") format("truetype");
+    font-display: swap;
+}
+
 :root[data-theme="groovy"] {
     --bg: #ffecb4;
     --panel: #5a3d2b;
@@ -445,35 +457,88 @@
     --accent: #afeeee;
     --accent-strong: #d3ffce;
     --divider-accent: #8fcfd1;
+    --title-font: "Commanders", var(--site-font);
 }
 
 :root[data-theme="sea-glass"] body {
     color: var(--text);
+    background-color: var(--bg);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("Images/caustics.png");
+    background-repeat: repeat;
+    background-size: 750px 750px;
+    background-blend-mode: multiply, soft-light;
 }
 
 :root[data-theme="sea-glass"] .title-bar {
-    background: linear-gradient(135deg, rgba(175, 238, 238, 0.82), rgba(230, 243, 246, 0.96));
+    background: linear-gradient(135deg, rgba(175, 238, 238, 0.25), rgba(230, 243, 246, 0.25));
     box-shadow: 0 1px 0 rgba(23, 55, 60, 0.12), 0 0.75rem 1.5rem rgba(23, 55, 60, 0.08);
+    backdrop-filter: blur(6px) saturate(125%);
 }
 
 :root[data-theme="sea-glass"] h1,
-:root[data-theme="sea-glass"] #local-time,
+:root[data-theme="sea-glass"] #local-time {
+    color: var(--bg);
+    filter: blur(0.5px);
+    -webkit-text-stroke: 1px rgba(23, 55, 60, 0.52);
+    text-shadow:
+        1px 1px 0 rgba(255, 255, 255, 0.86),
+        -1px -1px 0 rgba(23, 55, 60, 0.58),
+        0 2px 0 rgba(23, 55, 60, 0.44),
+        2px 0 0 rgba(23, 55, 60, 0.32),
+        -2px 0 0 rgba(255, 255, 255, 0.34),
+        0 0 0.12rem rgba(23, 55, 60, 0.2),
+        0 0 0.28rem rgba(230, 243, 246, 0.18);
+    font-weight: 800;
+}
+
 :root[data-theme="sea-glass"] #open-header-settings,
 :root[data-theme="sea-glass"] .block-title-bar,
 :root[data-theme="sea-glass"] .block-title-bar h2,
 :root[data-theme="sea-glass"] .block-control {
     color: var(--text);
 }
-
-
-:root[data-theme="sea-glass"] h1,
-:root[data-theme="sea-glass"] #local-time,
-:root[data-theme="sea-glass"] #open-header-settings {
-    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.82), -1px -1px 1px rgba(23, 55, 60, 0.28);
-    font-weight: 800;
-}
 :root[data-theme="sea-glass"] .block-title-bar::after {
     background: var(--divider-accent);
+}
+
+:root[data-theme="sea-glass"] .icon-button {
+    position: relative;
+}
+
+:root[data-theme="sea-glass"] .icon-button,
+:root[data-theme="sea-glass"] .add-block-button,
+:root[data-theme="sea-glass"] .reorder-blocks-button,
+:root[data-theme="sea-glass"] .reorder-blocks-button.is-active {
+    border-color: rgba(23, 55, 60, 0.34);
+    box-shadow:
+        inset 1px 1px 0 rgba(255, 255, 255, 0.62),
+        inset -1px -1px 0 rgba(23, 55, 60, 0.28),
+        0 0 0.18rem rgba(23, 55, 60, 0.14);
+}
+
+:root[data-theme="sea-glass"] .icon-button::before,
+:root[data-theme="sea-glass"] .add-block-button::before,
+:root[data-theme="sea-glass"] .reorder-blocks-button::before {
+    content: "";
+    position: absolute;
+    inset: 0.12rem;
+    pointer-events: none;
+    border: 1px solid rgba(23, 55, 60, 0.34);
+    border-radius: inherit;
+    box-shadow:
+        1px 1px 0 rgba(255, 255, 255, 0.52),
+        -1px -1px 0 rgba(23, 55, 60, 0.34),
+        inset 1px 1px 0 rgba(255, 255, 255, 0.38),
+        inset -1px -1px 0 rgba(23, 55, 60, 0.22);
+    filter: blur(2px);
+    opacity: 0.78;
+}
+
+:root[data-theme="sea-glass"] .icon-button > *,
+:root[data-theme="sea-glass"] .add-block-button > *,
+:root[data-theme="sea-glass"] .reorder-blocks-button > * {
+    position: relative;
+    z-index: 1;
 }
 
 :root[data-theme="sea-glass"] .icon-button,
@@ -486,17 +551,45 @@
 :root[data-theme="sea-glass"] .block-title-input,
 :root[data-theme="sea-glass"] .reorder-blocks-button {
     color: var(--text);
-    border-color: rgba(120, 184, 190, 0.54);
-    background: rgba(230, 243, 246, 0.72);
-    backdrop-filter: blur(10px) saturate(125%);
+    background: rgba(230, 243, 246, 0.25);
+    backdrop-filter: blur(8px) saturate(125%);
 }
 
 :root[data-theme="sea-glass"] .grid-button {
+    position: relative;
     color: var(--text);
-    border-color: rgba(120, 184, 190, 0.5);
-    background: linear-gradient(135deg, rgba(230, 243, 246, 0.52), rgba(175, 238, 238, 0.34));
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 0.45rem 1.1rem rgba(23, 55, 60, 0.1);
-    backdrop-filter: blur(12px) saturate(135%);
+    border-color: rgba(23, 55, 60, 0.34);
+    background: linear-gradient(135deg, rgba(230, 243, 246, 0.25), rgba(175, 238, 238, 0.25));
+    box-shadow:
+        inset 1px 1px 0 rgba(255, 255, 255, 0.62),
+        inset -1px -1px 0 rgba(23, 55, 60, 0.28),
+        0 0 0.18rem rgba(23, 55, 60, 0.14),
+        0 0.45rem 1.1rem rgba(23, 55, 60, 0.1);
+    backdrop-filter: blur(10px) saturate(135%);
+}
+
+:root[data-theme="sea-glass"] .grid-button::before {
+    content: "";
+    position: absolute;
+    inset: 0.12rem;
+    pointer-events: none;
+    border: 1px solid rgba(23, 55, 60, 0.34);
+    border-radius: inherit;
+    box-shadow:
+        1px 1px 0 rgba(255, 255, 255, 0.52),
+        -1px -1px 0 rgba(23, 55, 60, 0.34),
+        inset 1px 1px 0 rgba(255, 255, 255, 0.38),
+        inset -1px -1px 0 rgba(23, 55, 60, 0.22);
+    filter: blur(2px);
+    opacity: 0.78;
+}
+
+:root[data-theme="sea-glass"] .button-grid {
+    padding: 0.55rem;
+}
+
+:root[data-theme="sea-glass"] .button-block.is-collapsed .button-grid {
+    padding: 0;
 }
 
 :root[data-theme="sea-glass"] .grid-button:hover,
@@ -516,12 +609,19 @@
 :root[data-theme="sea-glass"] .reorder-blocks-button.is-active {
     color: var(--text);
     border-color: rgba(79, 127, 132, 0.55);
-    background: rgba(175, 238, 238, 0.82);
+    background: rgba(175, 238, 238, 0.25);
 }
 
 :root[data-theme="sea-glass"] .grid-button .fallback-icon {
     color: var(--text);
-    background: rgba(211, 255, 206, 0.8);
+    background: rgba(211, 255, 206, 0.32);
+    backdrop-filter: blur(6px) saturate(125%);
+}
+
+:root[data-theme="sea-glass"] .grid-button img {
+    opacity: 0.86;
+    background: rgba(230, 243, 246, 0.12);
+    backdrop-filter: blur(6px) saturate(125%);
 }
 
 :root[data-theme="sea-glass"] .button-card-action {
@@ -532,12 +632,20 @@
 
 :root[data-theme="sea-glass"] #open-header-settings img,
 :root[data-theme="sea-glass"] .icon-button img,
+:root[data-theme="sea-glass"] .reorder-blocks-button img,
+:root[data-theme="sea-glass"] .add-block-button img {
+    filter:
+        brightness(0) saturate(100%) invert(94%) sepia(7%) saturate(554%) hue-rotate(152deg) brightness(102%) contrast(93%)
+        drop-shadow(1px 1px 0 rgba(255, 255, 255, 0.86))
+        drop-shadow(-1px -1px 0 rgba(23, 55, 60, 0.58))
+        drop-shadow(0 1px 0 rgba(23, 55, 60, 0.42))
+        blur(0.5px);
+}
+
 :root[data-theme="sea-glass"] .block-control img,
 :root[data-theme="sea-glass"] .block-reorder-handle img,
 :root[data-theme="sea-glass"] .button-card-action img,
-:root[data-theme="sea-glass"] .config-actions button img,
-:root[data-theme="sea-glass"] .reorder-blocks-button img,
-:root[data-theme="sea-glass"] .add-block-button img {
+:root[data-theme="sea-glass"] .config-actions button img {
     filter: brightness(0) saturate(100%) invert(18%) sepia(16%) saturate(1105%) hue-rotate(141deg) brightness(94%) contrast(89%);
 }
 
