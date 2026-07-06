@@ -4,7 +4,7 @@ This compose file runs FastDash by cloning the public GitHub repo at container s
 
 ## Required Setup
 
-Before deploying, replace the placeholder data path in `docker-compose.yml` with a real persistent directory on your host:
+Before deploying, replace the placeholder data path in line 14 of `docker-compose.yml` with a real persistent directory on your host:
 
 ```yaml
 volumes:
@@ -32,7 +32,7 @@ The container uses `/data` for persistent app data. Future server-side user conf
 
 ## Permissions
 
-The web server drops privileges and runs as UID/GID `568:568`, the standard TrueNAS Apps user. Make sure your persistent data directory is writable by that user/group.
+The container starts as root for setup, then Nginx uses the built-in `nginx` worker user from the official image. The startup script chowns `/data` so the worker can write `/data/config`.
 
 ## Run
 
@@ -53,3 +53,5 @@ Restarting the container pulls the latest files from the configured GitHub branc
 ```bash
 docker compose restart
 ```
+
+

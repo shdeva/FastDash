@@ -6,10 +6,10 @@ const defaultSettings = {
     title: "FastDash",
     theme: "early-bird",
     font: "arial",
-    dateFormat: "mdy",
+    dateFormat: "pretty",
     showSeconds: false,
     use24Hour: false,
-    showDayOfWeek: false
+    showDayOfWeek: true
 };
 
 let userConfig = {

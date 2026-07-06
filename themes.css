@@ -1,26 +1,26 @@
 ﻿/* Theme-specific variables and overrides. */
 
 @font-face {
-    font-family: "Endless Boss Battle";
-    src: url("Fonts/EndlessBossBattleRegular-v7Ey.ttf") format("truetype");
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Kamryn";
-    src: url("Fonts/Kamryn3DItalic-JRK6E.ttf") format("truetype");
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Loca Demo";
-    src: url("Fonts/LocaDemoRegular-KVKMX.otf") format("opentype");
-    font-display: swap;
-}
-
-@font-face {
     font-family: "Superdream";
     src: url("Fonts/SuperDream-ax3vE.ttf") format("truetype");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Pixel Tandysoft";
+    src: url("Fonts/PixelTandysoft-0rJG.ttf") format("truetype");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "IBM Plex Mono";
+    src: url("Fonts/IbmPlexMono-7L4D.otf") format("opentype");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "CS Rovian";
+    src: url("Fonts/CsRovianRegularDemo-ZpRB3.otf") format("opentype");
     font-display: swap;
 }
 
@@ -34,6 +34,7 @@
     --accent: #e5771e;
     --accent-strong: #75c8ae;
     --divider-accent: #f1ad4a;
+    --title-font: "Superdream", var(--site-font);
 }
 
 :root[data-theme="groovy"] body {
@@ -66,7 +67,6 @@
 
 :root[data-theme="groovy"] #header-title {
     color: #ffffff;
-    font-family: "Superdream", var(--site-font);
     font-weight: 400 !important;
     text-shadow: 4px 4px 0 #2b2b2b;
 }
@@ -174,6 +174,7 @@
     --accent: #f725a0;
     --accent-strong: #0cb2c0;
     --divider-accent: #fad141;
+    --title-font: "CS Rovian", var(--site-font);
 }
 
 :root[data-theme="arcade"] body {
@@ -194,7 +195,14 @@
 :root[data-theme="arcade"] #open-header-settings {
     color: #e8e6d9;
     font-weight: 900;
-    text-shadow: 3px 3px 0 #672394, -2px -2px 0 #0cb2c0;
+}
+
+:root[data-theme="arcade"] h1,
+:root[data-theme="arcade"] #local-time {
+    text-shadow:
+        -1.5px 0 0 #f725a0,
+        1.5px 0 0 #0cb2c0,
+        0 0 0.45rem rgba(250, 209, 65, 0.18);
 }
 
 :root[data-theme="arcade"] .block-title-bar,
@@ -225,7 +233,24 @@
     color: var(--text);
     border-color: #672394;
     background: linear-gradient(135deg, rgba(103, 35, 148, 0.58), rgba(35, 35, 42, 0.94));
-    box-shadow: inset 0 2px 0 rgba(250, 209, 65, 0.22), 0 0.55rem 1rem rgba(0, 0, 0, 0.28);
+    box-shadow:
+        0 0 0.55rem rgba(247, 37, 160, 0.5),
+        0 0 1.1rem rgba(247, 37, 160, 0.34),
+        inset 0 0 0 1px rgba(250, 209, 65, 0.28),
+        inset 0 0.14rem 0 rgba(250, 209, 65, 0.26),
+        inset 0 -0.12rem 0 rgba(12, 178, 192, 0.16),
+        0 0.24rem 0.52rem rgba(0, 0, 0, 0.34);
+}
+
+:root[data-theme="arcade"] .button-grid {
+    padding-top: 0.55rem;
+    padding-left: 0.55rem;
+    padding-right: 0.55rem;
+    padding-bottom: 0.55rem;
+}
+
+:root[data-theme="arcade"] .button-block.is-collapsed .button-grid {
+    padding: 0;
 }
 
 :root[data-theme="arcade"] .grid-button:hover,
@@ -238,6 +263,27 @@
 :root[data-theme="arcade"] .text-button:focus-visible {
     border-color: #0cb2c0;
     background: #2d2b35;
+}
+
+:root[data-theme="arcade"] .grid-button:hover,
+:root[data-theme="arcade"] .grid-button:focus-visible {
+    box-shadow:
+        0 0 0.7rem rgba(247, 37, 160, 0.64),
+        0 0 1.45rem rgba(247, 37, 160, 0.46),
+        inset 0 0 0 1px rgba(250, 209, 65, 0.36),
+        inset 0 0.14rem 0 rgba(250, 209, 65, 0.3),
+        inset 0 -0.12rem 0 rgba(12, 178, 192, 0.18),
+        0 0.3rem 0.62rem rgba(0, 0, 0, 0.38);
+}
+
+:root[data-theme="arcade"] .grid-button:active {
+    box-shadow:
+        0 0 0.42rem rgba(247, 37, 160, 0.48),
+        0 0 0.9rem rgba(247, 37, 160, 0.32),
+        inset 0 0 0 1px rgba(250, 209, 65, 0.22),
+        inset 0 0.08rem 0 rgba(250, 209, 65, 0.22),
+        inset 0 -0.08rem 0 rgba(12, 178, 192, 0.12),
+        0 0.12rem 0.26rem rgba(0, 0, 0, 0.28);
 }
 
 :root[data-theme="arcade"] .primary-button,
@@ -508,6 +554,7 @@
     --accent: #7e5bbd;
     --accent-strong: #56358f;
     --divider-accent: #b9a7f2;
+    --title-font: "Pixel Tandysoft", var(--site-font);
 }
 
 :root[data-theme="retro-gaming"] .title-bar {
@@ -625,6 +672,7 @@
     --accent: #3fd53f;
     --accent-strong: #22a822;
     --divider-accent: #3fd53f;
+    --title-font: "IBM Plex Mono", var(--site-font);
 }
 
 :root[data-theme="terminal-orange"] {
@@ -637,6 +685,27 @@
     --accent: #f9ab2e;
     --accent-strong: #c34901;
     --divider-accent: #f9ab2e;
+    --title-font: "IBM Plex Mono", var(--site-font);
+}
+
+:root[data-theme="terminal"] body,
+:root[data-theme="terminal-orange"] body {
+    font-family: var(--title-font);
+}
+
+:root[data-theme="terminal"] .settings-dialog,
+:root[data-theme="terminal-orange"] .settings-dialog {
+    font-family: var(--site-font);
+}
+
+:root[data-theme="terminal"] #header-title::before,
+:root[data-theme="terminal-orange"] #header-title::before {
+    content: "#!";
+}
+
+:root[data-theme="terminal"] #header-title::after,
+:root[data-theme="terminal-orange"] #header-title::after {
+    content: "_";
 }
 
 
@@ -792,7 +861,6 @@
 :root[data-theme="retro-gaming"] #header-title {
     display: inline-block;
     color: #d9d9d9;
-    font-family: "Endless Boss Battle", var(--site-font);
     font-weight: 400;
     letter-spacing: 0;
     text-shadow:
@@ -801,6 +869,7 @@
 }
 
 :root[data-theme="retro-gaming"] #local-time {
+    font-family: var(--title-font);
     text-shadow:
         -1px -1px 0 rgba(41, 39, 53, 0.68),
         1px 1px 0 rgba(255, 255, 255, 0.24);
@@ -816,9 +885,9 @@
     border-color: transparent;
     background: linear-gradient(145deg, #b9a7f2 0%, #8a6fd1 100%);
     box-shadow:
-        inset 0 0.18rem 0 rgba(255, 255, 255, 0.3),
-        inset 0 -0.18rem 0 rgba(45, 31, 78, 0.22),
-        0 0.36rem 0.72rem rgba(41, 39, 53, 0.34);
+        inset 0 0.14rem 0 rgba(255, 255, 255, 0.38),
+        inset 0 -0.12rem 0 rgba(41, 39, 53, 0.12),
+        0 0.24rem 0.52rem rgba(41, 39, 53, 0.22);
 }
 
 :root[data-theme="retro-gaming"] #open-header-settings:hover,
@@ -830,9 +899,9 @@
     filter: brightness(1.08);
     transform: translateY(-1px);
     box-shadow:
-        inset 0 0.18rem 0 rgba(255, 255, 255, 0.34),
-        inset 0 -0.18rem 0 rgba(45, 31, 78, 0.24),
-        0 0.44rem 0.82rem rgba(41, 39, 53, 0.38);
+        inset 0 0.14rem 0 rgba(255, 255, 255, 0.42),
+        inset 0 -0.12rem 0 rgba(41, 39, 53, 0.14),
+        0 0.3rem 0.62rem rgba(41, 39, 53, 0.26);
 }
 
 :root[data-theme="retro-gaming"] #open-header-settings:active,
@@ -840,9 +909,9 @@
 :root[data-theme="retro-gaming"] .add-block-button:active {
     transform: translateY(0.22rem);
     box-shadow:
-        inset 0 0.1rem 0 rgba(255, 255, 255, 0.2),
-        inset 0 -0.1rem 0 rgba(45, 31, 78, 0.18),
-        0 0.16rem 0.36rem rgba(41, 39, 53, 0.28);
+        inset 0 0.08rem 0 rgba(255, 255, 255, 0.26),
+        inset 0 -0.08rem 0 rgba(41, 39, 53, 0.1),
+        0 0.12rem 0.26rem rgba(41, 39, 53, 0.18);
 }
 
 :root[data-theme="retro-gaming"] .add-block-button img,
@@ -870,8 +939,21 @@
     overflow: hidden;
 }
 
+:root[data-theme="terminal"] #open-header-settings {
+    position: relative;
+    overflow: hidden;
+}
+
+:root[data-theme="terminal"] .reorder-blocks-button,
+:root[data-theme="terminal"] .add-block-button {
+    overflow: hidden;
+}
+
 :root[data-theme="terminal"] .grid-button::after,
-:root[data-theme="terminal"] .title-bar::after {
+:root[data-theme="terminal"] .title-bar::after,
+:root[data-theme="terminal"] #open-header-settings::after,
+:root[data-theme="terminal"] .reorder-blocks-button::after,
+:root[data-theme="terminal"] .add-block-button::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -887,7 +969,10 @@
     opacity: 0.42;
 }
 
-:root[data-theme="terminal"] .title-bar > * {
+:root[data-theme="terminal"] .title-bar > *,
+:root[data-theme="terminal"] #open-header-settings > *,
+:root[data-theme="terminal"] .reorder-blocks-button > *,
+:root[data-theme="terminal"] .add-block-button > * {
     position: relative;
     z-index: 1;
 }
@@ -902,14 +987,31 @@
     filter: brightness(0) saturate(100%) invert(70%) sepia(97%) saturate(553%) hue-rotate(68deg) brightness(91%) contrast(84%);
 }
 
+:root[data-theme="terminal"] .add-block-button img {
+    filter: brightness(0) saturate(100%) invert(11%) sepia(18%) saturate(797%) hue-rotate(71deg) brightness(92%) contrast(94%);
+}
+
 :root[data-theme="terminal-orange"] .grid-button,
 :root[data-theme="terminal-orange"] .title-bar {
     position: relative;
     overflow: hidden;
 }
 
+:root[data-theme="terminal-orange"] #open-header-settings {
+    position: relative;
+    overflow: hidden;
+}
+
+:root[data-theme="terminal-orange"] .reorder-blocks-button,
+:root[data-theme="terminal-orange"] .add-block-button {
+    overflow: hidden;
+}
+
 :root[data-theme="terminal-orange"] .grid-button::after,
-:root[data-theme="terminal-orange"] .title-bar::after {
+:root[data-theme="terminal-orange"] .title-bar::after,
+:root[data-theme="terminal-orange"] #open-header-settings::after,
+:root[data-theme="terminal-orange"] .reorder-blocks-button::after,
+:root[data-theme="terminal-orange"] .add-block-button::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -925,7 +1027,10 @@
     opacity: 0.42;
 }
 
-:root[data-theme="terminal-orange"] .title-bar > * {
+:root[data-theme="terminal-orange"] .title-bar > *,
+:root[data-theme="terminal-orange"] #open-header-settings > *,
+:root[data-theme="terminal-orange"] .reorder-blocks-button > *,
+:root[data-theme="terminal-orange"] .add-block-button > * {
     position: relative;
     z-index: 1;
 }
@@ -938,6 +1043,10 @@
 :root[data-theme="terminal-orange"] .reorder-blocks-button img,
 :root[data-theme="terminal-orange"] .add-block-button img {
     filter: brightness(0) saturate(100%) invert(74%) sepia(68%) saturate(1236%) hue-rotate(339deg) brightness(101%) contrast(96%);
+}
+
+:root[data-theme="terminal-orange"] .add-block-button img {
+    filter: brightness(0) saturate(100%) invert(8%) sepia(69%) saturate(1420%) hue-rotate(5deg) brightness(92%) contrast(105%);
 }
 
 :root[data-theme="early-bird"] .title-bar {

@@ -10,6 +10,7 @@
     --accent-strong: #1479d1;
     --divider-accent: #f4d97a;
     --site-font: Arial, Helvetica, sans-serif;
+    --title-font: var(--site-font);
 }
 
 * {
@@ -46,6 +47,7 @@ select {
 h1 {
     margin: 0;
     color: var(--divider-accent);
+    font-family: var(--title-font);
     font-size: 2.5rem;
     line-height: 1;
 }
