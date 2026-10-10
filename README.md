@@ -32,7 +32,7 @@ volumes:
   - /mnt/tank/AppData/FastDash:/data:rw
 ```
 
-*Providing a dataet path for TrueNAS is critical, otherwise your user config will be wiped any time the container is restarted.*
+*Providing a dataset path for TrueNAS is critical, otherwise your user config will be wiped any time the container is restarted.*
 
 To use the yaml on TrueNAS go to Apps > Discover Apps > More Options (the three dot button next to Custom App) > Install via YAML
 
@@ -46,6 +46,4 @@ On either version, the container is configured to pull the latest version from G
 
 This is mostly a personal project that I decided to make public. It's functional as is and while I have ideas for more features/refinements/themes I'm not planning to commit to any sort of maintenance or release cycle. Feel free to report bugs and suggest stuff tho.
 
-A locally run LLM was used in the creation of FastDash for *coding only*. No generative AI was used to create imagery.
-
-All fonts, icons, and images used in this project are freely available or created by myself.
+A locally run LLM was used in the creation of FastDash for *coding only*. No generative AI was used to create imagery. All fonts, icons, and images used in this project are freely available or created by myself.
