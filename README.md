@@ -40,7 +40,7 @@ On either version, the container is configured to pull the latest version from G
 
 ## Notes
 
-**Icon behavior:** [Selfhost](https://selfh.st/icons/) is a great source for providing custom button icons. If no image URL is provided in the button config, FastDash will attempt to pull a favicon from the service URL.
+**Icon behavior:** [Selfhost](https://selfh.st/icons/) is a great source for providing custom button icons. If no image URL is provided in the button config, FastDash will attempt to pull a favicon from the service URL before falling back to a simple letter tile.
 
 ![Alt text](https://raw.githubusercontent.com/shdeva/FastDash/refs/heads/main/Images/screenshot2.png)
 
