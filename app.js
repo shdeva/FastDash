@@ -302,12 +302,13 @@ const viewModeLabels = {
     tiles: "Rectangular tiles",
     list: "Single column list"
 };
-const sortModes = ["name", "recent", "added", "frequent"];
+const sortModes = ["name", "recent", "added", "frequent", "custom"];
 const sortModeLabels = {
     name: "Name",
     recent: "Recently Used",
     added: "Added",
-    frequent: "Most Frequent"
+    frequent: "Most Frequent",
+    custom: "Custom"
 };
 
 const MAX_BLOCKS = 32;
@@ -326,6 +327,7 @@ let pendingDeleteMode = "button";
 let isReorderMode = false;
 let reorderSnapshot = "";
 let draggedBlockId = "";
+let draggedButton = null;
 
 function createId() {
     return globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -648,6 +650,8 @@ function getLastUsedTime(buttonId, history) {
 }
 
 function sortButtons(block) {
+    if (block.sortMode === "custom") return [...block.buttons];
+
     const history = pruneClickHistory(block);
     const sorted = [...block.buttons].sort((first, second) => {
         let result;
@@ -719,6 +723,7 @@ function createSortMenu(block) {
     input.id = `sort-descending-${block.id}`;
     input.type = "checkbox";
     input.checked = Boolean(block.sortDescending);
+    input.disabled = block.sortMode === "custom";
     input.dataset.action = "sort-direction";
 
     const text = document.createElement("span");
@@ -746,9 +751,11 @@ function createButtonAction(className, label, icon, action, buttonId) {
     return button;
 }
 
-function createButtonCard(block, button) {
+function createButtonCard(block, button, canCustomOrder = false) {
     const card = document.createElement("div");
     card.className = "button-card";
+    card.dataset.buttonId = button.id;
+    card.classList.toggle("can-custom-order", canCustomOrder);
 
     const link = document.createElement("a");
     link.className = "grid-button";
@@ -813,6 +820,11 @@ function createButtonCard(block, button) {
 
     const actions = document.createElement("div");
     actions.className = "button-card-actions";
+    if (canCustomOrder) {
+        const dragButton = createButtonAction("drag-button", "Drag button", "iconify/meteor-icons--grip-dots-vertical.svg", "drag-button", button.id);
+        dragButton.draggable = true;
+        actions.append(dragButton);
+    }
     actions.append(
         createButtonAction("edit-button", "Edit button", "iconify/meteor-icons--pencil.svg", "edit-button", button.id),
         createButtonAction("delete-button", "Delete button", "iconify/meteor-icons--trash-can.svg", "delete-button", button.id)
@@ -888,7 +900,9 @@ function createBlockElement(block, blockIndex = 0, totalBlocks = 1) {
     const grid = document.createElement("div");
     grid.className = `button-grid view-${block.viewMode}`;
     grid.setAttribute("aria-label", `${block.title || DEFAULT_BLOCK_TITLE} buttons`);
-    sortButtons(block).forEach((button) => grid.append(createButtonCard(block, button)));
+    const canCustomOrder = editingBlockId === block.id && block.sortMode === "custom";
+    grid.classList.toggle("is-custom-ordering", canCustomOrder);
+    sortButtons(block).forEach((button) => grid.append(createButtonCard(block, button, canCustomOrder)));
 
     section.append(titleBar, grid);
     return section;
@@ -1098,6 +1112,28 @@ function openAddButtonDialog(blockId) {
     newButtonText.focus();
 }
 
+function moveButtonRelative(blockId, draggedButtonId, targetButtonId, position = "before") {
+    if (!blockId || !draggedButtonId || !targetButtonId || draggedButtonId === targetButtonId) return;
+
+    const blocks = getBlocks();
+    const blockIndex = blocks.findIndex((block) => block.id === blockId);
+    if (blockIndex < 0 || blocks[blockIndex].sortMode !== "custom") return;
+
+    const buttons = [...blocks[blockIndex].buttons];
+    const draggedIndex = buttons.findIndex((button) => button.id === draggedButtonId);
+    const targetIndex = buttons.findIndex((button) => button.id === targetButtonId);
+    if (draggedIndex < 0 || targetIndex < 0) return;
+
+    const [dragged] = buttons.splice(draggedIndex, 1);
+    const adjustedTargetIndex = buttons.findIndex((button) => button.id === targetButtonId);
+    const insertIndex = position === "after" ? adjustedTargetIndex + 1 : adjustedTargetIndex;
+    buttons.splice(insertIndex, 0, dragged);
+
+    blocks[blockIndex] = { ...blocks[blockIndex], buttons };
+    saveBlocks(blocks);
+    renderBlocks();
+}
+
 async function addButtonFromDialog() {
     let url;
     let icon;
@@ -1254,6 +1290,26 @@ function deletePendingButton() {
 
 
 buttonBlocks?.addEventListener("dragstart", (event) => {
+    const dragHandle = event.target.closest?.(".drag-button");
+    const card = dragHandle?.closest?.(".button-card.can-custom-order");
+    if (card) {
+        const section = card.closest(".button-block");
+        draggedButton = {
+            blockId: section?.dataset.blockId || "",
+            buttonId: card.dataset.buttonId || ""
+        };
+
+        if (!draggedButton.blockId || !draggedButton.buttonId) {
+            draggedButton = null;
+            return;
+        }
+
+        card.classList.add("is-dragging");
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/plain", draggedButton.buttonId);
+        return;
+    }
+
     if (!isReorderMode) return;
 
     const section = event.target.closest?.(".button-block");
@@ -1266,6 +1322,27 @@ buttonBlocks?.addEventListener("dragstart", (event) => {
 });
 
 buttonBlocks?.addEventListener("dragover", (event) => {
+    if (draggedButton) {
+        const card = event.target.closest?.(".button-card.can-custom-order");
+        const section = card?.closest(".button-block");
+        if (!card || !section || section.dataset.blockId !== draggedButton.blockId || card.dataset.buttonId === draggedButton.buttonId) return;
+
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "move";
+        const rect = card.getBoundingClientRect();
+        const horizontalDistance = Math.abs(event.clientX - (rect.left + rect.width / 2));
+        const verticalDistance = Math.abs(event.clientY - (rect.top + rect.height / 2));
+        const position = horizontalDistance > verticalDistance
+            ? (event.clientX > rect.left + rect.width / 2 ? "after" : "before")
+            : (event.clientY > rect.top + rect.height / 2 ? "after" : "before");
+
+        card.dataset.dropPosition = position;
+        buttonBlocks.querySelectorAll(".button-card.is-drop-target").forEach((buttonCard) => buttonCard.classList.remove("is-drop-target", "is-drop-after"));
+        card.classList.add("is-drop-target");
+        card.classList.toggle("is-drop-after", position === "after");
+        return;
+    }
+
     if (!isReorderMode || !draggedBlockId) return;
 
     const section = event.target.closest?.(".button-block");
@@ -1282,6 +1359,15 @@ buttonBlocks?.addEventListener("dragover", (event) => {
 });
 
 buttonBlocks?.addEventListener("dragleave", (event) => {
+    if (draggedButton) {
+        const card = event.target.closest?.(".button-card.can-custom-order");
+        if (card && !card.contains(event.relatedTarget)) {
+            card.classList.remove("is-drop-target", "is-drop-after");
+            delete card.dataset.dropPosition;
+        }
+        return;
+    }
+
     if (!isReorderMode) return;
     const section = event.target.closest?.(".button-block");
     if (section && !section.contains(event.relatedTarget)) {
@@ -1291,6 +1377,16 @@ buttonBlocks?.addEventListener("dragleave", (event) => {
 });
 
 buttonBlocks?.addEventListener("drop", (event) => {
+    if (draggedButton) {
+        const card = event.target.closest?.(".button-card.can-custom-order");
+        const section = card?.closest(".button-block");
+        if (!card || !section || section.dataset.blockId !== draggedButton.blockId) return;
+
+        event.preventDefault();
+        moveButtonRelative(draggedButton.blockId, draggedButton.buttonId, card.dataset.buttonId, card.dataset.dropPosition || "before");
+        return;
+    }
+
     if (!isReorderMode || !draggedBlockId) return;
 
     const section = event.target.closest?.(".button-block");
@@ -1301,7 +1397,12 @@ buttonBlocks?.addEventListener("drop", (event) => {
 });
 
 buttonBlocks?.addEventListener("dragend", () => {
+    draggedButton = null;
     draggedBlockId = "";
+    buttonBlocks?.querySelectorAll(".button-card.is-dragging, .button-card.is-drop-target").forEach((card) => {
+        card.classList.remove("is-dragging", "is-drop-target", "is-drop-after");
+        delete card.dataset.dropPosition;
+    });
     buttonBlocks?.querySelectorAll(".button-block.is-dragging, .button-block.is-drop-target").forEach((block) => {
         block.classList.remove("is-dragging", "is-drop-target", "is-drop-after");
         delete block.dataset.dropPosition;
@@ -1315,7 +1416,18 @@ buttonBlocks?.addEventListener("click", (event) => {
 
     const sortOption = target.closest("[data-sort-mode]");
     if (sortOption) {
-        updateBlock(blockId, (block) => ({ ...block, sortMode: sortOption.dataset.sortMode }));
+        updateBlock(blockId, (block) => {
+            if (sortOption.dataset.sortMode === "custom" && block.sortMode !== "custom") {
+                return {
+                    ...block,
+                    buttons: sortButtons(block),
+                    sortMode: "custom",
+                    sortDescending: false
+                };
+            }
+
+            return { ...block, sortMode: sortOption.dataset.sortMode };
+        });
         return;
     }
 

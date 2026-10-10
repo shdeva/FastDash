@@ -291,6 +291,24 @@ button {
     pointer-events: none;
 }
 
+.button-card.is-dragging {
+    opacity: 0.5;
+}
+
+.button-card.is-drop-target::before {
+    content: "";
+    position: absolute;
+    inset: -0.22rem;
+    z-index: 2;
+    pointer-events: none;
+    border: 2px dashed var(--divider-accent);
+    border-radius: 10px;
+}
+
+.button-card.is-drop-target.is-drop-after::before {
+    border-style: solid;
+}
+
 .button-card {
     position: relative;
     min-width: 0;
@@ -308,6 +326,20 @@ button {
 
 .button-block.is-editing .button-card-actions {
     display: grid;
+}
+
+.button-block.is-editing .button-card.can-custom-order .button-card-actions {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, auto);
+    align-content: center;
+}
+
+.button-block.is-editing .button-card.can-custom-order .drag-button {
+    cursor: grab;
+}
+
+.button-block.is-editing .button-card.can-custom-order .drag-button:active {
+    cursor: grabbing;
 }
 
 .button-card-action {

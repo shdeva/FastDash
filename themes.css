@@ -25,12 +25,6 @@
 }
 
 @font-face {
-    font-family: "Bloomingworth Bold";
-    src: url("Fonts/BloomingworthBold-yqW5.ttf") format("truetype");
-    font-display: swap;
-}
-
-@font-face {
     font-family: "Commanders";
     src: url("Fonts/Commanders-VxLy.ttf") format("truetype");
     font-display: swap;
@@ -463,10 +457,10 @@
 :root[data-theme="sea-glass"] body {
     color: var(--text);
     background-color: var(--bg);
-    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("Images/caustics.png");
+    background-image: url("Images/caustics.png");
     background-repeat: repeat;
     background-size: 750px 750px;
-    background-blend-mode: multiply, soft-light;
+    background-blend-mode: soft-light;
 }
 
 :root[data-theme="sea-glass"] .title-bar {
@@ -651,6 +645,16 @@
 
 :root[data-theme="sea-glass"] .settings-dialog::backdrop {
     background: rgba(230, 243, 246, 0.64);
+}
+
+@media (max-width: 520px) {
+    :root[data-theme="sea-glass"] #open-header-settings {
+        position: fixed;
+        left: 2vw;
+        right: auto;
+        bottom: 2vw;
+        z-index: 20;
+    }
 }
 :root[data-theme="retro-gaming"] {
     --bg: #d9d9d9;
@@ -1331,4 +1335,18 @@
 :root[data-theme="retro-gaming"] .block-title-counter {
     color: #808080;
 }
+
+@media (max-width: 520px) {
+    :root[data-theme="sea-glass"] #open-header-settings,
+    :root[data-theme="terminal"] #open-header-settings,
+    :root[data-theme="terminal-orange"] #open-header-settings {
+        position: fixed;
+        left: 2vw;
+        right: auto;
+        bottom: 2vw;
+        z-index: 20;
+    }
+}
+
+
 
