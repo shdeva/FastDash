@@ -30,6 +30,12 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: "House On Mars";
+    src: url("Fonts/HouseOnMars-v4mO.ttf") format("truetype");
+    font-display: swap;
+}
+
 :root[data-theme="groovy"] {
     --bg: #ffecb4;
     --panel: #5a3d2b;
@@ -160,7 +166,7 @@
     background: #75c8ae;
 }
 
-@media (max-width: 520px) {
+@media (max-aspect-ratio: 9 / 16) {
     :root[data-theme="groovy"] #header-title,
     :root[data-theme="groovy"] #local-time {
         text-shadow: 2px 2px 0 #2b2b2b;
@@ -341,6 +347,7 @@
     --accent: #a74808;
     --accent-strong: #cc7810;
     --divider-accent: #cc7810;
+    --title-font: "House On Mars", var(--site-font);
 }
 
 :root[data-theme="red-planet"] body {
@@ -358,6 +365,10 @@
     color: #ffe8d6;
     font-weight: 850;
     text-shadow: 2px 2px 0 rgba(36, 17, 17, 0.86);
+}
+
+:root[data-theme="red-planet"] #local-time {
+    font-family: var(--title-font);
 }
 
 :root[data-theme="red-planet"] .block-title-bar,
@@ -647,7 +658,7 @@
     background: rgba(230, 243, 246, 0.64);
 }
 
-@media (max-width: 520px) {
+@media (max-aspect-ratio: 999 / 1000) {
     :root[data-theme="sea-glass"] #open-header-settings {
         position: fixed;
         left: 2vw;
@@ -1336,7 +1347,12 @@
     color: #808080;
 }
 
-@media (max-width: 520px) {
+@media (max-aspect-ratio: 999 / 1000) {
+    :root[data-theme="sea-glass"] .title-bar {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+
     :root[data-theme="sea-glass"] #open-header-settings,
     :root[data-theme="terminal"] #open-header-settings,
     :root[data-theme="terminal-orange"] #open-header-settings {

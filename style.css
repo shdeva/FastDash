@@ -182,7 +182,43 @@ h1 {
     line-height: 1.4;
 }
 
-@media (max-width: 520px) {
+@media (min-aspect-ratio: 1 / 1) and (max-aspect-ratio: 1599 / 700) {
+    .title-bar {
+        padding-left: 12.5vw;
+        padding-right: 12.5vw;
+    }
+
+    .page-content {
+        padding-left: 12.5vw;
+        padding-right: 12.5vw;
+    }
+}
+
+@media (min-aspect-ratio: 16 / 7) {
+    .title-bar {
+        padding-left: 25vw;
+        padding-right: 25vw;
+    }
+
+    .page-content {
+        padding-left: 25vw;
+        padding-right: 25vw;
+    }
+}
+
+@media (min-aspect-ratio: 9 / 16) and (max-aspect-ratio: 999 / 1000) {
+    .title-bar {
+        position: sticky;
+        top: 0;
+        z-index: 15;
+    }
+
+    .checkbox-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-aspect-ratio: 9 / 16) {
     .title-bar {
         position: sticky;
         top: 0;
