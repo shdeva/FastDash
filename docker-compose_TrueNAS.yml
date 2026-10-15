@@ -8,7 +8,7 @@
       - "8090:8080"
     environment:
       GIT_REPO: https://github.com/shdeva/FastDash.git
-      GIT_BRANCH: main
+      GIT_BRANCH: Release
       FASTDASH_DATA_DIR: /data
     volumes:
       - /REPLACE/WITH/YOUR/PERSISTENT/FASTDASH/DATA:/data:rw

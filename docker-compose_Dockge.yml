@@ -8,7 +8,7 @@ services:
       - "${FASTDASH_PORT:-8090}:8080"
     environment:
       GIT_REPO: https://github.com/shdeva/FastDash.git
-      GIT_BRANCH: main
+      GIT_BRANCH: Release
     volumes:
       - fastdash-data:/data
     command:
