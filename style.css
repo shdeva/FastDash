@@ -230,7 +230,7 @@ h1 {
     }
 }
 
-@media (width < 700px), (height < 700px) {
+@media (width < 800px), (height < 800px) {
     #header-title {
         font-size: 1.25rem;
     }

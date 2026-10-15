@@ -60,7 +60,7 @@ button {
     display: grid;
     gap: 2.25rem;
     box-sizing: border-box;
-    padding: 0 2vw 2vw;
+    padding: 0 0 2vw;
 }
 
 .button-block {
@@ -635,13 +635,6 @@ button {
 @media (prefers-reduced-motion: reduce) {
     .button-grid {
         transition: none;
-    }
-}
-
-@media (min-aspect-ratio: 16 / 7) {
-    .button-blocks {
-        padding-left: 0;
-        padding-right: 0;
     }
 }
 
