@@ -1110,6 +1110,7 @@
     filter: brightness(0) saturate(100%) invert(70%) sepia(97%) saturate(553%) hue-rotate(68deg) brightness(91%) contrast(84%);
 }
 
+:root[data-theme="terminal"] .reorder-blocks-button.is-active img,
 :root[data-theme="terminal"] .add-block-button img {
     filter: brightness(0) saturate(100%) invert(11%) sepia(18%) saturate(797%) hue-rotate(71deg) brightness(92%) contrast(94%);
 }
@@ -1168,6 +1169,7 @@
     filter: brightness(0) saturate(100%) invert(74%) sepia(68%) saturate(1236%) hue-rotate(339deg) brightness(101%) contrast(96%);
 }
 
+:root[data-theme="terminal-orange"] .reorder-blocks-button.is-active img,
 :root[data-theme="terminal-orange"] .add-block-button img {
     filter: brightness(0) saturate(100%) invert(8%) sepia(69%) saturate(1420%) hue-rotate(5deg) brightness(92%) contrast(105%);
 }
