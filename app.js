@@ -2,10 +2,10 @@ const USER_CONFIG_PATH = "config/FastDash_userconfig.json";
 const DEFAULT_CONFIG_PATH = "FastDash_defaultconfig.json";
 const USER_CONFIG_SAVE_DEBOUNCE_MS = 250;
 const MAX_TITLE_LENGTH = 60;
+const MAX_HEADER_TITLE_LENGTH = 30;
 const defaultSettings = {
     title: "FastDash",
     theme: "early-bird",
-    font: "arial",
     dateFormat: "pretty",
     showSeconds: false,
     use24Hour: false,
@@ -35,16 +35,6 @@ function uncachedFetch(path, options = {}) {
     });
 }
 
-const fontFamilies = {
-    arial: "Arial, Helvetica, sans-serif",
-    courier: `"Courier New", Courier, monospace`,
-    garamond: `Garamond, "Times New Roman", serif`,
-    georgia: `Georgia, "Times New Roman", serif`,
-    "times-new-roman": `"Times New Roman", Times, serif`,
-    trebuchet: `"Trebuchet MS", Trebuchet, Arial, sans-serif`,
-    verdana: "Verdana, Geneva, sans-serif"
-};
-
 const headerTitle = document.querySelector("#header-title");
 const localTime = document.querySelector("#local-time");
 const openSettingsButton = document.querySelector("#open-header-settings");
@@ -52,7 +42,6 @@ const settingsDialog = document.querySelector("#header-settings");
 const settingsForm = document.querySelector("#header-settings-form");
 const headerTitleInput = document.querySelector("#header-title-input");
 const themeSelect = document.querySelector("#theme-select");
-const fontSelect = document.querySelector("#font-select");
 const dateFormatSelect = document.querySelector("#date-format-select");
 const showSecondsInput = document.querySelector("#show-seconds-input");
 const use24HourInput = document.querySelector("#use-24-hour-input");
@@ -77,7 +66,7 @@ function pad(value) {
 
 function normalizeSettings(settings) {
     const normalized = { ...defaultSettings, ...settings };
-    normalized.title = trimToLength(normalized.title, MAX_TITLE_LENGTH) || defaultSettings.title;
+    normalized.title = trimToLength(normalized.title, MAX_HEADER_TITLE_LENGTH) || defaultSettings.title;
 
     if (settings?.prettyDate && normalized.dateFormat !== "pretty") {
         normalized.dateFormat = "pretty";
@@ -89,6 +78,7 @@ function normalizeSettings(settings) {
     }
 
     delete normalized.prettyDate;
+    delete normalized.font;
     return normalized;
 }
 
@@ -140,16 +130,13 @@ function updateLocalTime() {
 function applySettings() {
     const settings = getSettings();
 
-    if (headerTitle) headerTitle.textContent = trimToLength(settings.title || defaultSettings.title, MAX_TITLE_LENGTH);
-    document.title = trimToLength(settings.title || defaultSettings.title, MAX_TITLE_LENGTH);
+    if (headerTitle) headerTitle.textContent = trimToLength(settings.title || defaultSettings.title, MAX_HEADER_TITLE_LENGTH);
+    document.title = trimToLength(settings.title || defaultSettings.title, MAX_HEADER_TITLE_LENGTH);
     document.documentElement.dataset.theme = settings.theme || defaultSettings.theme;
-    const fontKey = fontFamilies[settings.font] ? settings.font : defaultSettings.font;
-    document.documentElement.style.setProperty("--site-font", fontFamilies[fontKey]);
 
-    if (headerTitleInput) headerTitleInput.value = trimToLength(settings.title || defaultSettings.title, MAX_TITLE_LENGTH);
+    if (headerTitleInput) headerTitleInput.value = trimToLength(settings.title || defaultSettings.title, MAX_HEADER_TITLE_LENGTH);
     updateCharacterCounter(headerTitleInput);
     if (themeSelect) themeSelect.value = settings.theme || defaultSettings.theme;
-    if (fontSelect) fontSelect.value = fontKey;
     if (dateFormatSelect) dateFormatSelect.value = settings.dateFormat || defaultSettings.dateFormat;
     if (showSecondsInput) showSecondsInput.checked = Boolean(settings.showSeconds);
     if (use24HourInput) use24HourInput.checked = Boolean(settings.use24Hour);
@@ -170,9 +157,8 @@ settingsForm?.addEventListener("submit", (event) => {
 
     event.preventDefault();
     saveSettings({
-        title: trimToLength(headerTitleInput.value, MAX_TITLE_LENGTH) || defaultSettings.title,
+        title: trimToLength(headerTitleInput.value, MAX_HEADER_TITLE_LENGTH) || defaultSettings.title,
         theme: themeSelect.value,
-        font: fontSelect.value,
         dateFormat: dateFormatSelect.value,
         showSeconds: showSecondsInput.checked,
         use24Hour: use24HourInput.checked,
