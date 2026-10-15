@@ -2,11 +2,11 @@
 
 FastDash is a highly configurable, containerized, and self-hosted web dashboard meant for consolidating links to various homelab devices and services into one place. The site runs on nginx and can by default be accessed on port 8090 of your server.
 
-![Alt text](https://raw.githubusercontent.com/shdeva/FastDash/refs/heads/main/Images/screenshot1.png)
+![Alt text](https://raw.githubusercontent.com/shdeva/FastDash/refs/heads/Release/Images/screenshot1.png)
 
 FastDash includes several visual themes, drag and drop rearranging, icon sorting/view modes, and many other options to customize look and feel. It's also responsive to many different screen sizes and ratios. You can download the configuration file for backup purposes.
 
-![Alt text](https://raw.githubusercontent.com/shdeva/FastDash/refs/heads/main/Images/screenshot3.png)
+![Alt text](https://raw.githubusercontent.com/shdeva/FastDash/refs/heads/Release/Images/screenshot3.png)
 
 ## Branches
 
@@ -47,7 +47,7 @@ On either version, the container is configured to pull the latest version from G
 
 **Icon behavior:** [Selfhost](https://selfh.st/icons/) is a great source for providing custom button icons. If no image URL is provided in the button config, FastDash will attempt to pull a favicon from the service URL before falling back to a simple letter tile.
 
-![Alt text](https://raw.githubusercontent.com/shdeva/FastDash/refs/heads/main/Images/screenshot2.png)
+![Alt text](https://raw.githubusercontent.com/shdeva/FastDash/refs/heads/Release/Images/screenshot2.png)
 
 This is mostly a personal project that I decided to make public. It's functional as is and while I have ideas for more features/refinements/themes I'm not planning to commit to any sort of maintenance or release cycle. Feel free to report bugs and suggest stuff tho.
 
