@@ -2,6 +2,7 @@ const USER_CONFIG_PATH = "config/FastDash_userconfig.json";
 const DEFAULT_CONFIG_PATH = "FastDash_defaultconfig.json";
 const USER_CONFIG_SAVE_DEBOUNCE_MS = 250;
 const MAX_TITLE_LENGTH = 60;
+const MAX_HEADER_TITLE_LENGTH = 30;
 const defaultSettings = {
     title: "FastDash",
     theme: "early-bird",
@@ -65,7 +66,7 @@ function pad(value) {
 
 function normalizeSettings(settings) {
     const normalized = { ...defaultSettings, ...settings };
-    normalized.title = trimToLength(normalized.title, MAX_TITLE_LENGTH) || defaultSettings.title;
+    normalized.title = trimToLength(normalized.title, MAX_HEADER_TITLE_LENGTH) || defaultSettings.title;
 
     if (settings?.prettyDate && normalized.dateFormat !== "pretty") {
         normalized.dateFormat = "pretty";
@@ -129,11 +130,11 @@ function updateLocalTime() {
 function applySettings() {
     const settings = getSettings();
 
-    if (headerTitle) headerTitle.textContent = trimToLength(settings.title || defaultSettings.title, MAX_TITLE_LENGTH);
-    document.title = trimToLength(settings.title || defaultSettings.title, MAX_TITLE_LENGTH);
+    if (headerTitle) headerTitle.textContent = trimToLength(settings.title || defaultSettings.title, MAX_HEADER_TITLE_LENGTH);
+    document.title = trimToLength(settings.title || defaultSettings.title, MAX_HEADER_TITLE_LENGTH);
     document.documentElement.dataset.theme = settings.theme || defaultSettings.theme;
 
-    if (headerTitleInput) headerTitleInput.value = trimToLength(settings.title || defaultSettings.title, MAX_TITLE_LENGTH);
+    if (headerTitleInput) headerTitleInput.value = trimToLength(settings.title || defaultSettings.title, MAX_HEADER_TITLE_LENGTH);
     updateCharacterCounter(headerTitleInput);
     if (themeSelect) themeSelect.value = settings.theme || defaultSettings.theme;
     if (dateFormatSelect) dateFormatSelect.value = settings.dateFormat || defaultSettings.dateFormat;
@@ -156,7 +157,7 @@ settingsForm?.addEventListener("submit", (event) => {
 
     event.preventDefault();
     saveSettings({
-        title: trimToLength(headerTitleInput.value, MAX_TITLE_LENGTH) || defaultSettings.title,
+        title: trimToLength(headerTitleInput.value, MAX_HEADER_TITLE_LENGTH) || defaultSettings.title,
         theme: themeSelect.value,
         dateFormat: dateFormatSelect.value,
         showSeconds: showSecondsInput.checked,

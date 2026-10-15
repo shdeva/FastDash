@@ -114,6 +114,18 @@ h1 {
     font-weight: 700;
 }
 
+.header-title-field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.header-title-field .character-counter {
+    margin-top: 0;
+    white-space: nowrap;
+}
+
 .character-counter {
     justify-self: end;
     margin-top: -0.45rem;
@@ -215,6 +227,16 @@ h1 {
 
     .checkbox-row {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (width < 700px), (height < 700px) {
+    #header-title {
+        font-size: 1.25rem;
+    }
+
+    #local-time {
+        font-size: 1rem;
     }
 }
 

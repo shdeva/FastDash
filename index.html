@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>FastDash</title>
-        <link rel="stylesheet" href="style.css?v=20260705-9">
+        <link rel="stylesheet" href="style.css?v=20260705-11">
         <link rel="stylesheet" href="buttons.css?v=20260705-6">
         <link rel="stylesheet" href="themes.css?v=20260705-66">
     </head>
@@ -107,8 +107,10 @@
                 </div>
 
                 <label for="header-title-input">Header title</label>
-                <input id="header-title-input" type="text" maxlength="60" autocomplete="off" required>
-                <span class="character-counter" data-counter-for="header-title-input">0/60</span>
+                <div class="header-title-field">
+                    <input id="header-title-input" type="text" maxlength="30" autocomplete="off" aria-describedby="header-title-counter" required>
+                    <span id="header-title-counter" class="character-counter" data-counter-for="header-title-input">0/30</span>
+                </div>
 
                 <label for="theme-select">Theme</label>
                 <select id="theme-select">
@@ -164,7 +166,7 @@
             </form>
         </dialog>
 
-        <script src="app.js?v=20260705-5"></script>
+        <script src="app.js?v=20260705-6"></script>
     </body>
 </html>
 
