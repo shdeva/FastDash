@@ -759,6 +759,31 @@
     background: var(--panel-strong);
 }
 
+:root[data-theme="retro-gaming"] .settings-dialog {
+    color-scheme: light;
+    --panel: #d9d9d9;
+    --panel-strong: #d9d9d9;
+    --text: #292735;
+    --muted: #56358f;
+    --border: #808080;
+    --divider-accent: #56358f;
+}
+
+:root[data-theme="retro-gaming"] .settings-dialog .primary-button,
+:root[data-theme="retro-gaming"] .settings-dialog .danger-button {
+    color: #d9d9d9;
+    background: #56358f;
+    border-color: #56358f;
+}
+
+:root[data-theme="retro-gaming"] .settings-dialog .config-actions button img {
+    filter: brightness(0) saturate(100%) invert(15%) sepia(11%) saturate(1044%) hue-rotate(211deg) brightness(93%) contrast(91%);
+}
+
+:root[data-theme="retro-gaming"] .settings-dialog .config-actions .danger-button img {
+    filter: brightness(0) invert(85%);
+}
+
 :root[data-theme="night-owl"] {
     color-scheme: dark;
     --bg: #1e1f22;

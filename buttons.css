@@ -376,6 +376,16 @@ button {
     font-weight: 700;
 }
 
+#reset-config-button {
+    border-color: #ff8b91;
+    color: #ffe8ea;
+    background: #c22d39;
+}
+
+#reset-config-button img {
+    filter: brightness(0) saturate(100%) invert(100%);
+}
+
 .danger-button:hover,
 .danger-button:focus-visible {
     filter: brightness(1.1);
