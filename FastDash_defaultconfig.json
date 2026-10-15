@@ -3,7 +3,6 @@
     "settings":  {
                      "title":  "FastDash",
                      "theme":  "early-bird",
-                     "font":  "arial",
                      "dateFormat":  "pretty",
                      "showSeconds":  false,
                      "use24Hour":  false,
