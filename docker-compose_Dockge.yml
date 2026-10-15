@@ -1,7 +1,7 @@
 services:
-  fastdash:
+  fastdash-release:
     image: alpine:3.20
-    container_name: fastdash-website
+    container_name: fastdash-release
     restart: unless-stopped
     user: "0:0"
     ports:
