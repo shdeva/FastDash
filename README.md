@@ -1,6 +1,6 @@
-﻿# About
+# About
 
-FastDash is a highly configurable self-hosted web dashboard meant for consolidating links to various homelab devices and services into one place. The site runs on nginx and can by default be accessed on port 8090 of your server.
+FastDash is a highly configurable, containerized, and self-hosted web dashboard meant for consolidating links to various homelab devices and services into one place. The site runs on nginx and can by default be accessed on port 8090 of your server.
 
 ![Alt text](https://raw.githubusercontent.com/shdeva/FastDash/refs/heads/main/Images/screenshot1.png)
 
@@ -8,11 +8,16 @@ FastDash includes several visual themes, drag and drop rearranging, icon sorting
 
 ![Alt text](https://raw.githubusercontent.com/shdeva/FastDash/refs/heads/main/Images/screenshot3.png)
 
+## Branches
+
+`Release` is the main public branch. Use the YAMLs from this branch when creating your containers.  
+`Bugfix` and `Experimental` are live development branches for use by my testing server and the contents are not guaranteed to be notably different or even functional.
+
 ## Setup
 
-docker-compose-Dockge.yml is ready to use in any Docker manager. Just paste and go.
+`docker-compose-Dockge.ym` is ready to use in any Docker manager. Just paste and go.
 
-docker-compose-TrueNAS.yml needs a few more steps because of the way TrueNAS handles storage for custom apps. Before deploying, replace the placeholder data path on line 14 with a real persistent directory on your host:
+`docker-compose-TrueNAS.yml` needs a few more steps because of the way TrueNAS handles storage for custom apps. Before deploying, replace the placeholder data path on line 14 with a real persistent directory on your host:
 
 ```yaml
 volumes:
@@ -34,7 +39,7 @@ volumes:
 
 *Providing a dataset path for TrueNAS is critical, otherwise your user config will be wiped any time the container is restarted.*
 
-To use the yaml on TrueNAS go to Apps > Discover Apps > More Options (the three dot button next to Custom App) > Install via YAML
+To use the yaml on TrueNAS (as of `Community Edition 26.0.0-BETA.1`) go to Apps > Discover Apps > More Options (the three dot button next to Custom App) > Install via YAML
 
 On either version, the container is configured to pull the latest version from GitHub any time it is restarted.
 
