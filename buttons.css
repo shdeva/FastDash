@@ -113,6 +113,20 @@ button {
     position: relative;
 }
 
+.block-control.block-view {
+    width: auto;
+    max-width: 100%;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.35rem;
+    padding: 0 0.4rem;
+}
+
+.block-view-label {
+    font-size: 0.8rem;
+    line-height: 1.2;
+    color: inherit;
+}
+
 .block-control {
     width: 1.75rem;
     height: 1.75rem;
@@ -402,7 +416,7 @@ button {
 
 .button-grid.view-desktop {
     grid-template-columns: repeat(auto-fill, minmax(min(6.5rem, 100%), 6.5rem));
-    grid-auto-rows: 8rem;
+    grid-auto-rows: auto;
     gap: 0.75rem;
 }
 
@@ -415,7 +429,7 @@ button {
     height: 100%;
     min-height: 0;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 3rem minmax(0, 1fr);
+    grid-template-rows: 4rem auto;
     align-content: start;
     align-items: start;
     justify-items: center;
@@ -543,6 +557,7 @@ button {
 
 .button-block.is-collapsed .block-add,
 .button-block.is-collapsed .block-view,
+.button-block.is-collapsed .block-view-label,
 .button-block.is-collapsed .block-edit,
 .button-block.is-collapsed .block-commit,
 .button-block.is-collapsed .block-revert {
@@ -840,7 +855,8 @@ button {
         row-gap: 0.55rem;
     }
 
-    .button-block.is-editing .block-view {
+    .button-block.is-editing .block-view,
+    .button-block.is-editing .block-view-label {
         display: none;
     }
 
