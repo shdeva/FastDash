@@ -113,6 +113,20 @@ button {
     position: relative;
 }
 
+.block-control.block-view {
+    width: auto;
+    max-width: 100%;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.35rem;
+    padding: 0 0.4rem;
+}
+
+.block-view-label {
+    font-size: 0.8rem;
+    line-height: 1.2;
+    color: inherit;
+}
+
 .block-control {
     width: 1.75rem;
     height: 1.75rem;
@@ -392,6 +406,82 @@ button {
     outline: none;
 }
 
+@font-face {
+    font-family: "Open Sans";
+    src: url("Fonts/OpenSans-VariableFont_wdth,wght.ttf") format("truetype");
+    font-weight: 300 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+.button-grid.view-desktop {
+    grid-template-columns: repeat(auto-fill, minmax(min(6.5rem, 100%), 6.5rem));
+    grid-auto-rows: auto;
+    gap: 0.75rem;
+}
+
+.button-grid.view-desktop .button-card {
+    min-width: 0;
+    height: 100%;
+}
+
+:root[data-theme] .button-grid.view-desktop .grid-button {
+    height: 100%;
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 4rem auto;
+    align-content: start;
+    align-items: start;
+    justify-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.25rem;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: var(--text);
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    text-align: center;
+    font-family: "Open Sans", Verdana, sans-serif;
+}
+
+:root[data-theme="retro-gaming"] .button-grid.view-desktop .grid-button {
+    color: #292735;
+}
+
+:root[data-theme] .button-grid.view-desktop .grid-button::before,
+:root[data-theme] .button-grid.view-desktop .grid-button::after {
+    content: none;
+}
+
+:root[data-theme] .button-grid.view-desktop .grid-button:hover,
+:root[data-theme] .button-grid.view-desktop .grid-button:focus-visible {
+    border-color: var(--divider-accent);
+    background: color-mix(in srgb, var(--divider-accent) 18%, transparent);
+}
+
+:root[data-theme] .button-grid.view-desktop .grid-button img,
+:root[data-theme] .button-grid.view-desktop .grid-button .fallback-icon {
+    width: 3rem;
+    height: 3rem;
+}
+
+:root[data-theme] .button-grid.view-desktop .grid-button img {
+    background: transparent;
+    border-radius: 0;
+}
+
+:root[data-theme] .button-grid.view-desktop .grid-button span:last-child {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
 .button-grid.view-square {
     grid-template-columns: repeat(auto-fill, minmax(9rem, 9rem));
     grid-auto-rows: 9.4rem;
@@ -467,6 +557,7 @@ button {
 
 .button-block.is-collapsed .block-add,
 .button-block.is-collapsed .block-view,
+.button-block.is-collapsed .block-view-label,
 .button-block.is-collapsed .block-edit,
 .button-block.is-collapsed .block-commit,
 .button-block.is-collapsed .block-revert {
@@ -764,7 +855,8 @@ button {
         row-gap: 0.55rem;
     }
 
-    .button-block.is-editing .block-view {
+    .button-block.is-editing .block-view,
+    .button-block.is-editing .block-view-label {
         display: none;
     }
 

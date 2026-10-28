@@ -282,11 +282,12 @@ const deleteButtonMessage = document.querySelector("#delete-button-message");
 const closeDeleteButtonDialog = document.querySelector("#close-delete-button-dialog");
 const cancelDeleteButton = document.querySelector("#cancel-delete-button");
 
-const viewModes = ["square", "tiles", "list"];
+const viewModes = ["square", "tiles", "list", "desktop"];
 const viewModeLabels = {
     square: "Square icons",
     tiles: "Rectangular tiles",
-    list: "Single column list"
+    list: "Single column list",
+    desktop: "Desktop icons"
 };
 const sortModes = ["name", "recent", "added", "frequent", "custom"];
 const sortModeLabels = {
@@ -855,11 +856,16 @@ function createBlockElement(block, blockIndex = 0, totalBlocks = 1) {
         const editControls = document.createElement("div");
         editControls.className = "block-edit-controls";
         editControls.setAttribute("aria-label", `${block.title || DEFAULT_BLOCK_TITLE} edit controls`);
+        const viewLabel = document.createElement("span");
+        viewLabel.className = "block-view-label";
+        viewLabel.textContent = viewModeLabels[block.viewMode];
+        const viewButton = createIconButton("view", `View: ${viewModeLabels[block.viewMode]}`, "iconify/meteor-icons--objects-column.svg");
+        viewButton.append(viewLabel);
         editControls.append(
             createIconButton("add", "Add button", "iconify/meteor-icons--plus.svg"),
             createIconButton("sort", `Sort: ${sortModeLabels[block.sortMode]}`, "iconify/meteor-icons--bars-sort.svg"),
             createSortMenu(block),
-            createIconButton("view", `View: ${viewModeLabels[block.viewMode]}`, "iconify/meteor-icons--objects-column.svg")
+            viewButton
         );
 
         const counter = createCharacterCounter(input);
