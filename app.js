@@ -282,11 +282,12 @@ const deleteButtonMessage = document.querySelector("#delete-button-message");
 const closeDeleteButtonDialog = document.querySelector("#close-delete-button-dialog");
 const cancelDeleteButton = document.querySelector("#cancel-delete-button");
 
-const viewModes = ["square", "tiles", "list"];
+const viewModes = ["square", "tiles", "list", "desktop"];
 const viewModeLabels = {
     square: "Square icons",
     tiles: "Rectangular tiles",
-    list: "Single column list"
+    list: "Single column list",
+    desktop: "Desktop icons"
 };
 const sortModes = ["name", "recent", "added", "frequent", "custom"];
 const sortModeLabels = {
